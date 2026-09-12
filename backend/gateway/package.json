@@ -1,0 +1,34 @@
+{
+  "name": "bitdrum-gateway",
+  "version": "1.0.0",
+  "description": "API Gateway for BitDrum protocol",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@somnia-chain/reactivity": "^0.1.10",
+    "@somnia-chain/streams": "^0.12.2",
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "drizzle-orm": "^0.45.1",
+    "ethers": "^6.16.0",
+    "express": "^4.18.2",
+    "pg": "^8.20.0",
+    "viem": "~2.37.8",
+    "ws": "^7.5.10"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.15",
+    "@types/express": "^4.17.20",
+    "@types/node": "^20.8.9",
+    "@types/pg": "^8.20.0",
+    "@types/ws": "^7.4.7",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

@@ -1,0 +1,32 @@
+Compiling 1 files with Solc 0.8.19
+Solc 0.8.19 finished in 505.34ms
+Compiler run successful!
+Script ran successfully.
+
+== Logs ==
+  === SE & LB Redeployment ===
+  Leaderboard:        0xd16A046DcD98bD98CdD3A7deA4041554aCd5d0c4
+  SettlementEngine:   0x1eF8FBD696A56C9635D0c940192Cbc6AD5aEb2f0
+  PM wired to SE:     0x1eF8FBD696A56C9635D0c940192Cbc6AD5aEb2f0
+  LB wired to SE:     0x1eF8FBD696A56C9635D0c940192Cbc6AD5aEb2f0
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 50312
+
+Estimated gas price: 12.000000001 gwei
+
+Estimated total gas used for script: 1707787
+
+Estimated amount required: 0.020493444001707787 ETH
+
+==========================
+
+Transactions saved to: /Users/0t41k1/Documents/somnia/bitdrum/contracts/broadcast/DeploySE.s.sol/50312/run-latest.json
+
+Sensitive values saved to: /Users/0t41k1/Documents/somnia/bitdrum/contracts/cache/DeploySE.s.sol/50312/run-latest.json
+
+Error: Transaction Failure: 0xe7655f60ad94e773bfb160b1376ce9bd2e52076408de017d5a0628e02dec0db0
+Transaction Failure: 0x7973cc7fa56cf71e42c651b6acaa9b41d837306c929a7f2d5348a60dee48a626

@@ -1,0 +1,6 @@
+Compiling 1 files with Solc 0.8.19
+Solc 0.8.19 finished in 81.97ms
+Compiler run successful!
+Deployer: 0x25D27F36038511ed7a65f1689a639cD6dF0Bb2CD
+Deployed to: 0x3ddc3eA375559D56E5Dc5f0dF392929d5a49243f
+Transaction hash: 0xa27b87cee158bfae45f393818fe29f101ea089bfbb0a227e1f8fb85f8fe6dd66

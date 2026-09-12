@@ -1,0 +1,74 @@
+# ==================================
+# BitDrum Universal .gitignore
+# ==================================
+
+# ----------------------------------
+# Secrets & Environment Variables
+# ----------------------------------
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# ----------------------------------
+# Node / TypeScript (Backend/Frontend)
+# ----------------------------------
+node_modules/
+dist/
+build/
+.next/
+out/
+coverage/
+.npm/
+
+# ----------------------------------
+# Python (AI Agent)
+# ----------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env_python/
+pip-log.txt
+pytest_cache/
+
+# ----------------------------------
+# Cairo / Starknet Contracts
+# ----------------------------------
+target/
+deployments/
+*.abi.json
+*.sierra.json
+
+# ----------------------------------
+# Databases & Indexer Services
+# ----------------------------------
+.apibara/
+.pglite/
+*.sqlite
+*.sqlite3
+
+# ----------------------------------
+# Logs & IDEs
+# ----------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+backend/indexer/data/indexer-state.json
+backend/keeper/data/keeper-state.json
+
+# ----------------------------------
+# Foundry (Smart Contracts)
+# ----------------------------------
+contracts/cache/
+contracts/out/
+contracts/broadcast/
