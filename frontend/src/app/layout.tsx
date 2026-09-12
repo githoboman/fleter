@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google';
+import { Inter, JetBrains_Mono, Syne } from 'next/font/google';
 
-const headingFont = Space_Grotesk({
+const headingFont = Syne({
   subsets: ['latin'],
   variable: '--font-heading',
+  weight: ['400', '500', '600', '700', '800'],
 });
 
 const bodyFont = Inter({
@@ -19,7 +20,7 @@ const monoFont = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "BitDrum | Make the Call. Beat the Market.",
-  description: "A premium Somnia-native Bitcoin prediction protocol powered by The Core.",
+  description: "Ultra-fast Bitcoin Up/Down prediction markets live on Bot Chain. Oracle-settled. Vault-backed. 1m and 5m windows.",
   icons: {
     icon: [
       { url: '/favicon.ico' },
@@ -36,7 +37,12 @@ export const metadata: Metadata = {
   },
 };
 
-import { Providers } from "@/components/Providers";
+import dynamic from "next/dynamic";
+
+const Providers = dynamic(
+  () => import("@/components/Providers").then(m => ({ default: m.Providers })),
+  { ssr: false }
+);
 
 export default function RootLayout({
   children,

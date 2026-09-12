@@ -9,10 +9,10 @@ function Deploy-Contract {
     param(
         [string]$ContractName,
         [string]$File,
-        [string[]]$Args
+        [string[]]$Arguments
     )
     Write-Host "`n>>> Deploying $ContractName..."
-    $output = forge create "$File`:$ContractName" --rpc-url $RPC --private-key $PK --broadcast --legacy --constructor-args $Args 2>&1
+    $output = forge create "$File`:$ContractName" --rpc-url $RPC --private-key $PK --broadcast --legacy --constructor-args $Arguments 2>&1
     
     $addr = ($output | Select-String -Pattern "Deployed to:\s+(0x[a-fA-F0-9]+)").Matches.Groups[1].Value
     Write-Host "    $ContractName => $addr"
