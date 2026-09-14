@@ -108,7 +108,7 @@ export function SignalsPageView() {
                 {signal?.rationale ||
                   (snap
                     ? 'Waiting for the opening price and a two-sided book before pricing this window.'
-                    : 'Locating the live DreamDEX Up/Down window for this cadence.')}
+                    : 'Locating the live BitDrum Up/Down window for this cadence.')}
               </p>
             </Panel>
             <div className="flex flex-wrap gap-3">

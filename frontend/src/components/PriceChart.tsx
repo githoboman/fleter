@@ -196,7 +196,7 @@ const ExecutionCard: React.FC<{ execution: TradeExecutionRecord }> = ({ executio
   );
 };
 
-/** Same index the DreamDEX markets resolve against (Somnia price feed). */
+/** Same index the BitDrum markets resolve against (Bot Chain price feed). */
 const LIVE_POLL_MS = 2000;
 const HISTORY_MINUTES = 240;
 
@@ -411,7 +411,7 @@ export const PriceChart: React.FC<PriceChartProps> = ({
         <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-start">
           <div>
             <div className="text-[0.68rem] uppercase tracking-[0.34em] text-[var(--accent-gold)]">
-              DreamDEX Index Pulse
+              BitDrum Index Pulse
             </div>
             <div className="mt-3 flex items-end gap-3">
               <h2 className="font-heading text-[clamp(2rem,3vw,3.5rem)] font-semibold tracking-[-0.06em] text-[var(--text-primary)]">
@@ -440,7 +440,7 @@ export const PriceChart: React.FC<PriceChartProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--border-subtle)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition hover:border-[rgba(59,130,246,0.18)] hover:text-[var(--text-primary)]"
-                title="Open DreamDEX"
+                title="Open BitDrum"
               >
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>

@@ -14,7 +14,7 @@ import { getExchange, ORACLE_PRICE_DECIMALS } from "./client";
 import type { Candle } from "../signal/fairValue";
 
 export type Asset = "BTC" | "ETH";
-/** DreamDEX series cadences BitDrum exposes (1m and 5m match BitDrum's original timeframes). */
+/** BitDrum series cadences BitDrum exposes (1m and 5m match BitDrum's original timeframes). */
 export type CadenceSec = 60 | 300;
 
 export type UpDownSnapshot = {

@@ -23,7 +23,7 @@ export function BitdrumWalletProvider({ children }: { children: React.ReactNode 
   const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Keep the DreamDEX signer in step with the wallet state, including after a
+  // Keep the BitDrum signer in step with the wallet state, including after a
   // hot reload re-creates the exchange singleton underneath a connected wallet.
   useEffect(() => {
     if (!wallet) return;
@@ -42,7 +42,7 @@ export function BitdrumWalletProvider({ children }: { children: React.ReactNode 
 
     try {
       const nextWallet = await connectBitdrumWallet();
-      // Same viem walletClient signs DreamDEX orders, redeems, and faucet calls.
+      // Same viem walletClient signs BitDrum orders, redeems, and faucet calls.
       attachWallet(nextWallet.walletClient, nextWallet.address);
       setWallet(nextWallet);
     } catch (caughtError: any) {

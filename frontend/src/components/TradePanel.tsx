@@ -125,7 +125,7 @@ export const TradePanel = ({
 
   const handleFaucet = async () => {
     if (needsGas) {
-      setError('This wallet has no STT for gas on Somnia Shannon. Get some from the Somnia faucet first.');
+      setError('This wallet has no BOT for gas on Bot Chain Testnet. Get some from the Bot Chain faucet first.');
       return;
     }
     setError(null);
@@ -155,7 +155,7 @@ export const TradePanel = ({
       return;
     }
     if (needsGas) {
-      setError('This wallet has no STT for gas on Somnia Shannon. Get some from the Somnia faucet first.');
+      setError('This wallet has no BOT for gas on Bot Chain Testnet. Get some from the Bot Chain faucet first.');
       return;
     }
 
@@ -215,10 +215,10 @@ export const TradePanel = ({
   const rationale =
     signal?.rationale ??
     (marketError
-      ? 'DreamDEX feed unavailable — retrying.'
+      ? 'BitDrum feed unavailable — retrying.'
       : snap
         ? 'Waiting for the opening price and a live book before pricing this window.'
-        : 'Locating the live DreamDEX Up/Down window for this cadence.');
+        : 'Locating the live BitDrum Up/Down window for this cadence.');
 
   const pct = (x: number | null | undefined) => (x === null || x === undefined ? '--' : `${(x * 100).toFixed(1)}%`);
 
@@ -229,7 +229,7 @@ export const TradePanel = ({
     if (msg.includes('User rejected') || msg.includes('user rejected')) return 'Order cancelled in wallet';
     if (msg.includes('ImmediateOrCancelNoFill'))
       return 'The book moved before your order landed — no fill, nothing charged. Widen the fill tolerance or confirm faster.';
-    if (msg.includes('account does not exist')) return 'Somnia rejected the tx: this wallet has no STT for gas on Shannon. Fund it from the Somnia faucet, then retry.';
+    if (msg.includes('account does not exist')) return 'Bot Chain rejected the tx: this wallet has no BOT for gas on Shannon. Fund it from the Bot Chain faucet, then retry.';
     if (msg.toLowerCase().includes('insufficient')) return `Insufficient ${COLLATERAL_SYMBOL} — hit the faucet`;
     return msg.length > 200 ? `${msg.slice(0, 200)}...` : msg;
   };
@@ -237,8 +237,8 @@ export const TradePanel = ({
   const tradeDisabled = isPending || connecting || (authenticated && (!quote || locking || quoteState === 'loading'));
 
   const ctaLabel = useMemo(() => {
-    if (isPending) return 'Routing to DreamDEX...';
-    if (!authenticated) return 'Connect Somnia Wallet';
+    if (isPending) return 'Routing to BitDrum...';
+    if (!authenticated) return 'Connect Bot Chain wallet';
     if (!snap) return 'No live window';
     if (locking) return 'Window locking';
     if (quoteState === 'too-small') return 'Stake too small';
@@ -379,11 +379,11 @@ export const TradePanel = ({
 
         {needsGas ? (
           <div className="rounded-[1.4rem] border border-[rgba(245,185,66,0.25)] bg-[rgba(245,185,66,0.08)] px-4 py-3 text-[0.8rem] leading-6 text-[var(--text-primary)]">
-            No STT for gas — Somnia won&apos;t accept a transaction from an unfunded account.{' '}
+            No STT for gas — Bot Chain won&apos;t accept a transaction from an unfunded account.{' '}
             <a href="https://testnet.somnia.network/" target="_blank" rel="noopener noreferrer" className="underline text-[var(--accent-gold)]">
-              Get Shannon STT from the Somnia faucet
+              Get Testnet BOT from the Bot Chain faucet
             </a>
-            , then come back for TestUSDC.
+            , then come back for BOT.
           </div>
         ) : null}
 
@@ -444,7 +444,7 @@ export const TradePanel = ({
           <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent)] -translate-x-full animate-[shimmer_2s_infinite]" />
           <div className="relative">
             <div className="text-[0.62rem] font-black uppercase tracking-[0.3em] text-[#4d3300] opacity-60">
-              {authenticated ? 'DreamDEX Event Contract · IOC' : 'Security layer'}
+              {authenticated ? 'BitDrum Market · IOC' : 'Security layer'}
             </div>
             <div className="mt-2 font-heading text-2xl font-bold tracking-tight">{ctaLabel}</div>
           </div>

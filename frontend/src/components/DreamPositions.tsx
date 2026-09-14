@@ -174,7 +174,7 @@ export function DreamPositionsList({ compact = false, limit }: { compact?: boole
 
   if (isLoading && !positions.length) {
     return (
-      <p className="py-10 text-center text-[0.68rem] uppercase tracking-[0.34em] text-[var(--text-muted)]">Reading DreamDEX positions...</p>
+      <p className="py-10 text-center text-[0.68rem] uppercase tracking-[0.34em] text-[var(--text-muted)]">Reading BitDrum positions...</p>
     );
   }
 

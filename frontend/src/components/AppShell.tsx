@@ -15,6 +15,17 @@ const navItems = [
   { href: '/portfolio', label: 'Portfolio', icon: Wallet },
 ];
 
+import dynamic from 'next/dynamic';
+
+const LiveCandleBackground = dynamic(
+  () => import('./LiveCandleBackground').then(m => m.LiveCandleBackground),
+  { ssr: false }
+);
+const ParticleField = dynamic(
+  () => import('./ParticleField').then(m => m.ParticleField),
+  { ssr: false }
+);
+
 export function AppShell({
   title,
   description,
@@ -29,9 +40,13 @@ export function AppShell({
   const { balance } = useCollateralBalance(address);
 
   return (
-    <div className="mx-auto max-w-[1520px] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)]">
-        <aside className="min-w-0 xl:sticky xl:top-6 xl:h-fit">
+    <div className="relative min-h-screen overflow-x-hidden bg-[var(--bg-primary)]">
+      <LiveCandleBackground />
+      <ParticleField />
+      
+      <div className="relative z-10 mx-auto max-w-[1520px] px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid gap-6 xl:grid-cols-[280px_minmax(0,1fr)]">
+          <aside className="min-w-0 xl:sticky xl:top-6 xl:h-fit">
           <Panel className="surface-lift p-5 sm:p-6">
             <Link href="/">
               <BrandMark />
@@ -60,7 +75,7 @@ export function AppShell({
             <Panel className="mt-8 p-5">
               <Eyebrow accent="gold">Session</Eyebrow>
               <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                {authenticated ? shortAddress(address || '') : 'Connect your Somnia wallet to trade DreamDEX windows, redeem, and track your edge.'}
+                {authenticated ? shortAddress(address || '') : 'Connect your Bot Chain wallet to trade BitDrum windows, redeem, and track your edge.'}
               </p>
               {authenticated && balance !== null && (
                 <div className="mt-2 text-sm font-semibold text-[var(--accent-gold)]">
@@ -94,6 +109,7 @@ export function AppShell({
 
           {children}
         </main>
+      </div>
       </div>
     </div>
   );

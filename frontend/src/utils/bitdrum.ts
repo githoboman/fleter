@@ -213,7 +213,7 @@ function buildSomniaChain() {
       public: { http: ACTIVE_SOMNIA_NETWORK.rpcUrls as string[] },
     },
     blockExplorers: {
-      default: { name: 'Somnia Explorer', url: ACTIVE_SOMNIA_NETWORK.blockExplorerUrls[0] },
+      default: { name: 'Bot Chain Explorer', url: ACTIVE_SOMNIA_NETWORK.blockExplorerUrls[0] },
     },
     contracts: {
       multicall3: { address: ACTIVE_SOMNIA_NETWORK.multicall3Address },
@@ -237,7 +237,7 @@ async function ensureSomniaChain(walletClient: WalletClient) {
 
 function assertWalletSupport() {
   if (!window.ethereum) {
-    throw new Error('No EVM wallet detected. Install MetaMask or another Somnia-compatible wallet.');
+    throw new Error('No EVM wallet detected. Install MetaMask or another Bot Chain-compatible wallet.');
   }
 }
 

@@ -1,5 +1,5 @@
 /**
- * Write side: BitDrum's one-tap UP / DOWN stake, mapped onto a DreamDEX
+ * Write side: BitDrum's one-tap UP / DOWN stake, mapped onto a BitDrum
  * Event Contract market order (IOC) sized by walking the live book.
  */
 import { erc20Abi, type Address, type Hex } from "viem";
@@ -44,7 +44,7 @@ export function getBookParams(pool: Address) {
 }
 
 /**
- * Protective-limit cushion for interactive wallets. The DreamDEX market maker
+ * Protective-limit cushion for interactive wallets. The BitDrum market maker
  * re-quotes every few seconds (we measured 17¢ moves in ~5s) and a wallet
  * confirmation takes ~10s, so the SDK's 3% default routinely lands behind the
  * book and the IOC crosses nothing. Fills still happen at resting prices —
@@ -128,7 +128,7 @@ export async function redeemWinnings(marketId: Hex, amountRaw: bigint, outcomeId
   return ex.trader.redeem({ marketId, amount: amountRaw, ...(outcomeIdx === undefined ? {} : { outcomeIdx }), autoApprove: true });
 }
 
-/** Testnet collateral faucet (TestUSDC on Shannon). */
+/** Testnet collateral faucet (BOT on Shannon). */
 export async function claimTestCollateral() {
   const ex = requireSigner();
   return ex.trader.faucet();
@@ -140,7 +140,7 @@ export async function readGasBalance(address: Address): Promise<number> {
   return toHuman(raw, 18);
 }
 
-/** Wallet's collateral (TestUSDC) balance in human units. */
+/** Wallet's collateral (BOT) balance in human units. */
 export async function readCollateralBalance(address: Address): Promise<number> {
   const ex = getExchange();
   const raw = await ex.client.getViemClient().readContract({

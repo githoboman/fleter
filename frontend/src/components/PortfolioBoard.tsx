@@ -42,7 +42,7 @@ export function PortfolioBoard() {
           Every call, settlement, and redeem
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
-          Holdings are read straight from DreamDEX. Winning shares pay 1 {COLLATERAL_SYMBOL} each once the window resolves — redeem them here.
+          Holdings are read straight from BitDrum. Winning shares pay 1 {COLLATERAL_SYMBOL} each once the window resolves — redeem them here.
         </p>
         <div className="mt-6">
           <DreamPositionsList />

@@ -53,7 +53,7 @@ function WindowBook({ snap }: { snap: UpDownSnapshot | null }) {
   if (!snap) {
     return (
       <p className="py-10 text-center text-[0.68rem] uppercase tracking-[0.34em] text-[var(--text-muted)]">
-        Locating live DreamDEX window...
+        Locating live BitDrum window...
       </p>
     );
   }
@@ -153,7 +153,7 @@ export const TradingDashboard = () => {
 
   const handleTradeSubmitted = (record: TradeExecutionRecord) => {
     if (record.status === 'confirmed') {
-      setToast({ title: 'Order filled', message: `${record.direction} · ${record.stake} ${COLLATERAL_SYMBOL} routed to DreamDEX`, tone: 'up' });
+      setToast({ title: 'Order filled', message: `${record.direction} · ${record.stake} ${COLLATERAL_SYMBOL} routed to BitDrum`, tone: 'up' });
     }
     setPendingTrades((previous) => {
       const idx = previous.findIndex((t) => t.id === record.id || (record.txHash && t.txHash === record.txHash) || (t.status === 'submitted' && t.submittedAt === record.submittedAt));
@@ -218,7 +218,7 @@ export const TradingDashboard = () => {
               <div>
                 <Eyebrow accent="gold">Wallet Session</Eyebrow>
                 <h2 className="mt-3 font-heading text-4xl font-semibold tracking-[-0.05em] text-[var(--text-primary)]">
-                  Somnia execution profile
+                  Bot Chain execution profile
                 </h2>
               </div>
               <button onClick={() => setShowAccount(false)} className="rounded-full border border-[color:var(--border-subtle)] bg-[rgba(255,255,255,0.03)] p-2 text-[var(--text-secondary)]">
@@ -234,7 +234,7 @@ export const TradingDashboard = () => {
               <Panel className="p-5">
                 <Eyebrow accent="core">Venue</Eyebrow>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                  Orders are signed by your wallet and routed to DreamDEX Event Contracts on Somnia Shannon. Collateral is TestUSDC.
+                  Orders are signed by your wallet and routed to BitDrum Markets on Bot Chain Testnet. Collateral is BOT.
                 </p>
               </Panel>
             </div>
@@ -257,7 +257,7 @@ export const TradingDashboard = () => {
           )}
           {marketError && (
             <div className="rounded-[1.55rem] border border-[rgba(245,185,66,0.22)] bg-[rgba(245,185,66,0.08)] px-5 py-4 text-sm text-[var(--text-primary)] break-words">
-              DreamDEX feed hiccup — retrying. {marketError}
+              BitDrum feed hiccup — retrying. {marketError}
             </div>
           )}
 
@@ -299,7 +299,7 @@ export const TradingDashboard = () => {
                 {asset} {currentPrice ? `$${fmt(currentPrice)}` : '--'}
               </span>
               <div className="rounded-full border border-[rgba(59,130,246,0.18)] bg-[rgba(59,130,246,0.08)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.24em] text-[var(--accent-core)]">
-                DreamDEX
+                BitDrum
               </div>
             </div>
           </div>

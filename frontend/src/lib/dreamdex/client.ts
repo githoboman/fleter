@@ -1,5 +1,5 @@
 /**
- * DreamDEX (Somnia Markets) exchange singleton for BitDrum.
+ * BitDrum (Bot Chain Markets) exchange singleton for BitDrum.
  *
  * One read-only exchange is created lazily; when the user connects a wallet,
  * call `attachWallet(walletClient, address)` and the same instance becomes a
@@ -27,9 +27,9 @@ export const DREAMDEX_TESTNET = {
   priceFeed: SOMNIA_TESTNET_PRICE_FEED,
 } as const;
 
-/** DreamDEX testnet collateral (TestUSDC, 6dp). */
+/** BitDrum testnet collateral (BOT, 6dp). */
 export const COLLATERAL_ADDRESS = SOMNIA_TESTNET_ADDRESSES.collateral as Address;
-export const COLLATERAL_SYMBOL = "USDC";
+export const COLLATERAL_SYMBOL = "BOT";
 export const COLLATERAL_DECIMALS = 6;
 
 /**

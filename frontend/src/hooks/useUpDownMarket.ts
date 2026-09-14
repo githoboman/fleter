@@ -1,6 +1,6 @@
 'use client';
 /**
- * Live DreamDEX Up/Down market + BitDrum Edge signal for one asset/cadence.
+ * Live BitDrum Up/Down market + BitDrum Edge signal for one asset/cadence.
  * Refreshes every `refreshMs`, and rolls to the next market in the series
  * automatically when the current one expires.
  */
