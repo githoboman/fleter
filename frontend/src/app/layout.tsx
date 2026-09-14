@@ -37,12 +37,7 @@ export const metadata: Metadata = {
   },
 };
 
-import dynamic from "next/dynamic";
-
-const Providers = dynamic(
-  () => import("@/components/Providers").then(m => ({ default: m.Providers })),
-  { ssr: false }
-);
+import { Providers } from "@/components/Providers";
 
 export default function RootLayout({
   children,

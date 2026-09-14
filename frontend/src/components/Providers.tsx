@@ -2,7 +2,12 @@
 
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BitdrumWalletProvider } from './BitdrumWalletProvider';
+import dynamic from 'next/dynamic';
+
+const BitdrumWalletProvider = dynamic(
+  () => import('./BitdrumWalletProvider').then(m => m.BitdrumWalletProvider),
+  { ssr: false }
+);
 
 const queryClient = new QueryClient();
 
