@@ -250,7 +250,7 @@ export const TradingDashboard = () => {
         </div>
       ) : null}
 
-      <div className={`grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(320px,400px)] ${showAccount ? 'hidden' : ''}`}>
+      <div className={`grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,380px)] xl:grid-cols-[minmax(0,1fr)_minmax(360px,440px)] ${showAccount ? 'hidden' : ''}`}>
         <section className="flex min-w-0 flex-col gap-6">
           {walletError && (
             <div className="rounded-[1.55rem] border border-[rgba(220,38,38,0.22)] bg-[rgba(220,38,38,0.1)] px-5 py-4 text-sm text-[var(--text-primary)]">{walletError}</div>
@@ -261,7 +261,7 @@ export const TradingDashboard = () => {
             </div>
           )}
 
-          <div className="flex flex-wrap items-center justify-between gap-4 rounded-[1.65rem] border border-[color:var(--border-subtle)] bg-[rgba(255,255,255,0.02)] px-4 py-4 sm:px-6 backdrop-blur-sm">
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded-[1.65rem] border border-[color:var(--border-subtle)] bg-[rgba(255,255,255,0.02)] px-4 py-4 sm:px-6 backdrop-blur-xl shadow-lg">
             <div className="flex min-w-0 flex-wrap items-center gap-4 sm:gap-6">
               <div className="flex items-center gap-2">
                 <div className={`h-2 w-2 rounded-full ${snap ? 'bg-[var(--state-up)] shadow-[0_0_8px_var(--state-up)]' : 'bg-[var(--text-muted)]'}`} />
@@ -278,7 +278,7 @@ export const TradingDashboard = () => {
             <div className="flex min-w-0 flex-wrap items-center justify-end gap-3 sm:gap-4">
               <button
                 onClick={() => void handleAuth()}
-                className="rounded-full border border-[rgba(245,185,66,0.3)] bg-[rgba(245,185,66,0.08)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.24em] text-[var(--accent-gold)] transition hover:bg-[var(--accent-gold)] hover:text-black"
+                className="rounded-full border border-[rgba(255,170,0,0.3)] bg-[rgba(255,170,0,0.08)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.24em] text-[var(--accent-gold)] transition hover:bg-[var(--accent-gold)] hover:text-black"
               >
                 {authenticated ? 'Account' : 'Connect'}
               </button>
@@ -288,7 +288,7 @@ export const TradingDashboard = () => {
                     key={a}
                     onClick={() => setAsset(a)}
                     className={`rounded-full px-3 py-1 text-[0.62rem] uppercase tracking-[0.2em] transition ${
-                      asset === a ? 'bg-[rgba(245,185,66,0.14)] text-[var(--accent-gold)]' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                      asset === a ? 'bg-[rgba(255,170,0,0.14)] text-[var(--accent-gold)]' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                     }`}
                   >
                     {a}
@@ -298,7 +298,7 @@ export const TradingDashboard = () => {
               <span className="font-mono text-sm font-semibold text-[var(--text-primary)]">
                 {asset} {currentPrice ? `$${fmt(currentPrice)}` : '--'}
               </span>
-              <div className="rounded-full border border-[rgba(59,130,246,0.18)] bg-[rgba(59,130,246,0.08)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.24em] text-[var(--accent-core)]">
+              <div className="rounded-full border border-[rgba(0,240,255,0.3)] bg-[rgba(0,240,255,0.1)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.24em] text-[var(--accent-cyan)] shadow-[0_0_15px_rgba(0,240,255,0.2)]">
                 Botrem
               </div>
             </div>
@@ -336,7 +336,18 @@ export const TradingDashboard = () => {
           </div>
         </section>
 
-        <aside className="flex min-w-0 flex-col gap-6">
+        <aside className="hidden lg:flex min-w-0 flex-col gap-6 sticky top-6 h-[calc(100vh-3rem)] overflow-y-auto custom-scrollbar pb-6">
+          <TradePanel
+            snap={snap}
+            signal={signal}
+            marketError={marketError}
+            cadence={cadence}
+            onCadenceChange={setCadence}
+            onTradeSubmitted={handleTradeSubmitted}
+          />
+        </aside>
+
+        <aside className="lg:hidden flex min-w-0 flex-col gap-6">
           <TradePanel
             snap={snap}
             signal={signal}

@@ -119,12 +119,7 @@ export function EpicLandingPage() {
       ═══════════════════════════════════════ */}
       <section className="relative min-h-screen flex flex-col overflow-hidden">
 
-        {/* Deep space background layers */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(88,28,255,0.15),transparent_60%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(6,182,212,0.12),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,rgba(245,185,66,0.08),transparent_60%)]" />
-        </div>
+        {/* Deep space background layers removed (using SparklesCore in LandingRoot) */}
 
         {/* Top ticker */}
         <div className="relative z-20">
@@ -139,10 +134,10 @@ export function EpicLandingPage() {
           transition={{ duration: 0.6 }}
         >
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 via-cyan-400 to-amber-400 flex items-center justify-center shadow-[0_0_24px_rgba(59,130,246,0.6)]">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 via-blue-500 to-amber-500 flex items-center justify-center shadow-[0_0_24px_rgba(0,240,255,0.6)]">
               <span className="text-black font-black text-sm">B</span>
             </div>
-            <span className="font-black text-xl tracking-tight text-white">Bit<span className="text-cyan-400">Drum</span></span>
+            <span className="font-black text-xl tracking-tight text-white">Bot<span className="text-cyan-400">rem</span></span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-[0.75rem] tracking-widest text-white/40 uppercase">
             <Link href="/arena" className="hover:text-white transition-colors">Markets</Link>
@@ -161,8 +156,8 @@ export function EpicLandingPage() {
         </motion.nav>
 
         {/* Hero main */}
-        <div className="relative z-10 flex-1 grid lg:grid-cols-[1fr_auto] gap-0 items-center max-w-[1600px] mx-auto w-full px-6 lg:px-14 pb-10">
-          {/* Left: Text */}
+        <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1200px] mx-auto w-full px-6 lg:px-14 pb-10 pt-20">
+          {/* Text */}
           <motion.div style={{ y: springHeroY, opacity: heroOpacity }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -234,61 +229,7 @@ export function EpicLandingPage() {
             </motion.div>
           </motion.div>
 
-          {/* Right: Character */}
-          <motion.div
-            className="relative hidden lg:flex items-center justify-center"
-            style={{ y: characterY }}
-            initial={{ opacity: 0, scale: 0.8, x: 60 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {/* Orbital rings */}
-            <OrbitalRing size={540} duration={20} color="#3b82f6" />
-            <OrbitalRing size={420} duration={14} color="#f5b942" />
-            <OrbitalRing size={300} duration={9} color="#22d3ee" />
-
-            {/* Character glow base */}
-            <div className="absolute w-96 h-96 rounded-full blur-[80px] opacity-40"
-              style={{ background: 'radial-gradient(circle, #3b82f6, #581cff, transparent 70%)' }} />
-
-            {/* Character image */}
-            <motion.div
-              animate={{ y: [-12, 12, -12] }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative z-10"
-            >
-              <Image
-                src="/hero-character.jpg"
-                alt="Botrem Oracle Character"
-                width={480}
-                height={580}
-                className="object-contain drop-shadow-[0_0_60px_rgba(59,130,246,0.5)]"
-                priority
-                style={{ maskImage: 'radial-gradient(ellipse 90% 90% at center, black 60%, transparent 100%)' }}
-              />
-            </motion.div>
-
-            {/* Floating data chips around character */}
-            {[
-              { label: 'BTC/USD', val: '$67,841', color: '#f5b942', pos: '-left-16 top-24' },
-              { label: 'UP 82%', val: 'Bull Signal', color: '#10b981', pos: '-right-10 top-32' },
-              { label: 'Markets', val: '12 Live', color: '#22d3ee', pos: '-left-8 bottom-36' },
-              { label: 'Settled', val: '1.2K+', color: '#a855f7', pos: '-right-8 bottom-24' },
-            ].map((chip, i) => (
-              <motion.div
-                key={chip.label}
-                className={`absolute ${chip.pos} rounded-2xl border backdrop-blur-xl px-4 py-3 z-20`}
-                style={{ borderColor: `${chip.color}40`, background: `linear-gradient(135deg, ${chip.color}10, rgba(0,0,0,0.7))` }}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1 + i * 0.15, type: 'spring' }}
-                whileHover={{ scale: 1.1 }}
-              >
-                <p className="text-[0.55rem] tracking-[0.25em] uppercase mb-0.5" style={{ color: chip.color }}>{chip.label}</p>
-                <p className="text-white font-bold text-sm">{chip.val}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+          {/* Right: Character Removed */}
         </div>
 
         {/* Scroll indicator */}

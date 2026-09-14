@@ -10,19 +10,19 @@
    DESIGN TOKENS
 ═══════════════════════════════════════════ */
 :root {
-  --bg-primary: #030308;
-  --bg-secondary: #07070f;
-  --surface-primary: #0d0d18;
-  --surface-elevated: #111120;
-  --surface-soft: rgba(255, 255, 255, 0.03);
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-strong: rgba(255, 255, 255, 0.13);
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --surface-primary: #0f0f11;
+  --surface-elevated: #17171a;
+  --surface-soft: rgba(255, 255, 255, 0.05);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
 
-  --accent-gold: #f5b942;
-  --accent-amber: #d97706;
-  --accent-core: #3b82f6;
-  --accent-cyan: #22d3ee;
-  --accent-purple: #a855f7;
+  --accent-gold: #ffaa00;
+  --accent-amber: #e69500;
+  --accent-core: #0070f3;
+  --accent-cyan: #00f0ff;
+  --accent-purple: #7928ca;
 
   --state-up: #10b981;
   --state-down: #ef4444;
@@ -44,7 +44,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: #030308;
+  background: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-body), sans-serif;
   min-height: 100vh;

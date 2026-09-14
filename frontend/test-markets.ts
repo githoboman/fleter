@@ -25,7 +25,7 @@ const publicClient = createPublicClient({
 });
 
 // IMPORTANT: Replace this with your funded Testnet private key (e.g. from .env)
-const PRIVATE_KEY = process.env.PRIVATE_KEY || '0x0000000000000000000000000000000000000000000000000000000000000000';
+const PRIVATE_KEY = process.env.PRIVATE_KEY || '0x702d8bed065d31c47fc79f6770edf1327b1fd8eabe824ae68b6fb21743e4e6f0';
 const account = privateKeyToAccount(PRIVATE_KEY as `0x${string}`);
 
 const walletClient = createWalletClient({
@@ -37,15 +37,15 @@ const walletClient = createWalletClient({
 // 3. Contract Addresses and ABI
 const PREDICTION_MARKET_ADDRESS = '0x0478E0bF2d6C969365Ae33eDbBbB40e467F43BAB';
 
-// Minimal ABI to create a position
+// Minimal ABI to open a market
 const MARKET_ABI = [
   {
     "inputs": [
-      { "internalType": "uint256", "name": "marketId", "type": "uint256" },
-      { "internalType": "uint8", "name": "direction", "type": "uint8" } // 0 = UP, 1 = DOWN
+      { "internalType": "uint8", "name": "direction", "type": "uint8" }, // 0 = UP, 1 = DOWN
+      { "internalType": "uint256", "name": "duration", "type": "uint256" }
     ],
-    "name": "createPosition",
-    "outputs": [],
+    "name": "openMarket",
+    "outputs": [{ "internalType": "uint256", "name": "marketId", "type": "uint256" }],
     "stateMutability": "payable",
     "type": "function"
   }
@@ -64,18 +64,18 @@ async function main() {
       return;
     }
 
-    const marketId = 1n; // Assuming market ID 1 exists or you dynamically fetch it
     const direction = 0; // UP
+    const duration = 60n; // 1 Minute
     const stakeAmount = parseUnits('0.1', 18); // 0.1 BOT
 
-    console.log(`Placing a 0.1 BOT UP call on market ${marketId}...`);
+    console.log(`Opening a 1-minute UP market with 0.1 BOT...`);
 
-    const { request } = await publicClient.simulateContract({
+    const { request, result: marketId } = await publicClient.simulateContract({
       account,
       address: PREDICTION_MARKET_ADDRESS,
       abi: MARKET_ABI,
-      functionName: 'createPosition',
-      args: [marketId, direction],
+      functionName: 'openMarket',
+      args: [direction, duration],
       value: stakeAmount
     });
 
