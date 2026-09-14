@@ -10,9 +10,9 @@
 
 import { createPublicClient, defineChain, http, type PublicClient } from 'viem';
 import {
-  ACTIVE_SOMNIA_NETWORK,
+  ACTIVE_BOTCHAIN_NETWORK,
   PREDICTION_MARKET_ADDRESS,
-} from './somnia';
+} from './botchain';
 
 const GET_MARKET_ABI = [
   {
@@ -65,15 +65,15 @@ const NEXT_MARKET_ID_ABI = [
 
 function buildChain() {
   return defineChain({
-    id: ACTIVE_SOMNIA_NETWORK.chainId,
-    name: ACTIVE_SOMNIA_NETWORK.chainName,
-    nativeCurrency: ACTIVE_SOMNIA_NETWORK.nativeCurrency,
+    id: ACTIVE_BOTCHAIN_NETWORK.chainId,
+    name: ACTIVE_BOTCHAIN_NETWORK.chainName,
+    nativeCurrency: ACTIVE_BOTCHAIN_NETWORK.nativeCurrency,
     rpcUrls: {
-      default: { http: ACTIVE_SOMNIA_NETWORK.rpcUrls as string[] },
-      public: { http: ACTIVE_SOMNIA_NETWORK.rpcUrls as string[] },
+      default: { http: ACTIVE_BOTCHAIN_NETWORK.rpcUrls as string[] },
+      public: { http: ACTIVE_BOTCHAIN_NETWORK.rpcUrls as string[] },
     },
     contracts: {
-      multicall3: { address: ACTIVE_SOMNIA_NETWORK.multicall3Address },
+      multicall3: { address: ACTIVE_BOTCHAIN_NETWORK.multicall3Address },
     },
   });
 }
@@ -84,7 +84,7 @@ function getPublicClient(): PublicClient {
   if (!_publicClient) {
     _publicClient = createPublicClient({
       chain: buildChain(),
-      transport: http(ACTIVE_SOMNIA_NETWORK.rpcUrls[0]),
+      transport: http(ACTIVE_BOTCHAIN_NETWORK.rpcUrls[0]),
     });
   }
   return _publicClient;

@@ -10,10 +10,10 @@ import {
   type PublicClient,
 } from 'viem';
 import {
-  ACTIVE_SOMNIA_NETWORK,
+  ACTIVE_BOTCHAIN_NETWORK,
   PREDICTION_MARKET_ADDRESS,
-  SOMNIA_EXPLORER_BASE_URL,
-} from './somnia';
+  BOTCHAIN_EXPLORER_BASE_URL,
+} from './botchain';
 
 type Eip1193Provider = {
   request(args: { method: string; params?: unknown[] | object }): Promise<unknown>;
@@ -74,14 +74,14 @@ const MARKET_ABI = [
   },
 ] as const;
 
-export type BitdrumDirection = 'UP' | 'DOWN';
+export type BotremDirection = 'UP' | 'DOWN';
 export type TradeExecutionStatus = 'submitted' | 'confirmed' | 'failed';
 
 export type TradeExecutionRecord = {
   id: string;
   kind: 'OPEN' | 'JOIN' | 'CLAIM';
   marketId: string | null;
-  direction: BitdrumDirection;
+  direction: BotremDirection;
   stake: string;
   timeframeSeconds: number;
   entryPrice: number | null;
@@ -184,7 +184,7 @@ export function formatUsdPriceLabel(value: string | number | null | undefined) {
   })}`;
 }
 
-export type BitdrumWallet = {
+export type BotremWallet = {
   address: `0x${string}`;
   walletClient: WalletClient;
   publicClient: PublicClient;
@@ -193,44 +193,50 @@ export type BitdrumWallet = {
   openProfile(): Promise<void>;
 };
 
-type BitdrumTx = {
+type BotremTx = {
   hash: string;
   explorerUrl: string;
   wait(): Promise<unknown>;
 };
 
-function directionToEnum(direction: BitdrumDirection): number {
+function directionToEnum(direction: BotremDirection): number {
   return direction === 'UP' ? 0 : 1;
 }
 
-function buildSomniaChain() {
+function buildBotChainChain() {
   return defineChain({
-    id: ACTIVE_SOMNIA_NETWORK.chainId,
-    name: ACTIVE_SOMNIA_NETWORK.chainName,
-    nativeCurrency: ACTIVE_SOMNIA_NETWORK.nativeCurrency,
+    id: ACTIVE_BOTCHAIN_NETWORK.chainId,
+    name: ACTIVE_BOTCHAIN_NETWORK.chainName,
+    nativeCurrency: ACTIVE_BOTCHAIN_NETWORK.nativeCurrency,
     rpcUrls: {
-      default: { http: ACTIVE_SOMNIA_NETWORK.rpcUrls as string[] },
-      public: { http: ACTIVE_SOMNIA_NETWORK.rpcUrls as string[] },
+      default: { http: ACTIVE_BOTCHAIN_NETWORK.rpcUrls as string[] },
+      public: { http: ACTIVE_BOTCHAIN_NETWORK.rpcUrls as string[] },
     },
     blockExplorers: {
-      default: { name: 'Bot Chain Explorer', url: ACTIVE_SOMNIA_NETWORK.blockExplorerUrls[0] },
+      default: { name: 'Bot Chain Explorer', url: ACTIVE_BOTCHAIN_NETWORK.blockExplorerUrls[0] },
     },
     contracts: {
-      multicall3: { address: ACTIVE_SOMNIA_NETWORK.multicall3Address },
+      multicall3: { address: ACTIVE_BOTCHAIN_NETWORK.multicall3Address },
     },
   });
 }
 
-async function ensureSomniaChain(walletClient: WalletClient) {
+async function ensureBotChainChain(walletClient: WalletClient) {
   const chainId = await walletClient.getChainId();
-  if (chainId === ACTIVE_SOMNIA_NETWORK.chainId) return;
+  if (chainId === ACTIVE_BOTCHAIN_NETWORK.chainId) return;
 
   try {
-    await walletClient.switchChain({ id: ACTIVE_SOMNIA_NETWORK.chainId });
+    await walletClient.switchChain({ id: ACTIVE_BOTCHAIN_NETWORK.chainId });
   } catch {
     await pickInjectedProvider()!.request({
       method: 'wallet_addEthereumChain',
-      params: [ACTIVE_SOMNIA_NETWORK],
+      params: [{
+        chainId: ACTIVE_BOTCHAIN_NETWORK.chainIdHex,
+        chainName: ACTIVE_BOTCHAIN_NETWORK.chainName,
+        rpcUrls: ACTIVE_BOTCHAIN_NETWORK.rpcUrls,
+        blockExplorerUrls: ACTIVE_BOTCHAIN_NETWORK.blockExplorerUrls,
+        nativeCurrency: ACTIVE_BOTCHAIN_NETWORK.nativeCurrency,
+      }],
     });
   }
 }
@@ -242,13 +248,13 @@ function assertWalletSupport() {
 }
 
 function buildExplorerUrl(txHash: string) {
-  return `${SOMNIA_EXPLORER_BASE_URL}/tx/${txHash}`;
+  return `${BOTCHAIN_EXPLORER_BASE_URL}/tx/${txHash}`;
 }
 
-export async function connectBitdrumWallet(): Promise<BitdrumWallet> {
+export async function connectBotremWallet(): Promise<BotremWallet> {
   assertWalletSupport();
 
-  const chain = buildSomniaChain();
+  const chain = buildBotChainChain();
 
   const walletClient = createWalletClient({
     chain,
@@ -257,10 +263,10 @@ export async function connectBitdrumWallet(): Promise<BitdrumWallet> {
 
   const publicClient = createPublicClient({
     chain,
-    transport: http(ACTIVE_SOMNIA_NETWORK.rpcUrls[0]),
+    transport: http(ACTIVE_BOTCHAIN_NETWORK.rpcUrls[0]),
   });
 
-  await ensureSomniaChain(walletClient);
+  await ensureBotChainChain(walletClient);
 
   const [address] = await walletClient.requestAddresses();
 
@@ -277,19 +283,19 @@ export async function connectBitdrumWallet(): Promise<BitdrumWallet> {
       return;
     },
     async openProfile() {
-      window.open(`${SOMNIA_EXPLORER_BASE_URL}/address/${address}`, '_blank', 'noopener,noreferrer');
+      window.open(`${BOTCHAIN_EXPLORER_BASE_URL}/address/${address}`, '_blank', 'noopener,noreferrer');
     },
   };
 }
 
 export async function openMarket(params: {
-  wallet: BitdrumWallet;
-  direction: BitdrumDirection;
+  wallet: BotremWallet;
+  direction: BotremDirection;
   stake: string;
   durationSeconds: number;
-}): Promise<BitdrumTx> {
+}): Promise<BotremTx> {
   const amount = parseUnits(params.stake, STT_DECIMALS);
-  const chain = buildSomniaChain();
+  const chain = buildBotChainChain();
 
   const sttBalance = await params.wallet.publicClient.getBalance({ address: params.wallet.address });
   if (sttBalance < amount) {
@@ -319,13 +325,13 @@ export async function openMarket(params: {
 }
 
 export async function joinMarket(params: {
-  wallet: BitdrumWallet;
+  wallet: BotremWallet;
   marketId: string;
-  direction: BitdrumDirection;
+  direction: BotremDirection;
   stake: string;
-}): Promise<BitdrumTx> {
+}): Promise<BotremTx> {
   const amount = parseUnits(params.stake, STT_DECIMALS);
-  const chain = buildSomniaChain();
+  const chain = buildBotChainChain();
 
   const sttBalance = await params.wallet.publicClient.getBalance({ address: params.wallet.address });
   if (sttBalance < amount) {
@@ -352,10 +358,10 @@ export async function joinMarket(params: {
 }
 
 export async function claimMarket(params: {
-  wallet: BitdrumWallet;
+  wallet: BotremWallet;
   marketId: string;
-}): Promise<BitdrumTx> {
-  const chain = buildSomniaChain();
+}): Promise<BotremTx> {
+  const chain = buildBotChainChain();
 
   const hash = await params.wallet.walletClient.writeContract({
     address: PREDICTION_MARKET_ADDRESS as `0x${string}`,

@@ -4,8 +4,8 @@ import { SignalsPageView } from '@/components/SignalsPageView';
 export default function SignalsPage() {
   return (
     <AppShell
-      title="BitDrum Edge"
-      description="The fair-value model behind every call: what BitDrum thinks the window is worth versus what the BitDrum book is charging."
+      title="Botrem Edge"
+      description="The fair-value model behind every call: what Botrem thinks the window is worth versus what the Botrem book is charging."
     >
       <SignalsPageView />
     </AppShell>

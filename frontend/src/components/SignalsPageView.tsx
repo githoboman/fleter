@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { BrainCircuit, Radar, Waves } from 'lucide-react';
 import { useUpDownMarket } from '../hooks/useUpDownMarket';
 import type { CadenceSec } from '../lib/dreamdex/markets';
-import { formatTimeframe } from '../utils/bitdrum';
+import { formatTimeframe } from '../utils/botrem';
 import { Eyebrow, Panel, StatPill } from './ObsidianPrimitives';
 
 const pct = (x: number | null | undefined, digits = 1) => (x === null || x === undefined ? '--' : `${(x * 100).toFixed(digits)}%`);
@@ -49,7 +49,7 @@ export function SignalsPageView() {
   return (
     <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
       <Panel tone="core" className="surface-lift p-5 sm:p-6">
-        <Eyebrow accent="core">BitDrum Edge</Eyebrow>
+        <Eyebrow accent="core">Botrem Edge</Eyebrow>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
           <h2 className="font-heading text-[2rem] font-semibold tracking-[-0.05em] text-[var(--text-primary)]">
             Fair value vs. the book
@@ -108,7 +108,7 @@ export function SignalsPageView() {
                 {signal?.rationale ||
                   (snap
                     ? 'Waiting for the opening price and a two-sided book before pricing this window.'
-                    : 'Locating the live BitDrum Up/Down window for this cadence.')}
+                    : 'Locating the live Botrem Up/Down window for this cadence.')}
               </p>
             </Panel>
             <div className="flex flex-wrap gap-3">

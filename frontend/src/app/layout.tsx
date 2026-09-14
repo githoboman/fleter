@@ -19,7 +19,7 @@ const monoFont = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BitDrum | Make the Call. Beat the Market.",
+  title: "Botrem | Make the Call. Beat the Market.",
   description: "Ultra-fast Bitcoin Up/Down prediction markets live on Bot Chain. Oracle-settled. Vault-backed. 1m and 5m windows.",
   icons: {
     icon: [

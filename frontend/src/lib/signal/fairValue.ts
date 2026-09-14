@@ -1,5 +1,5 @@
 /**
- * BitDrum Edge — an explainable fair-value signal for Up/Down Event Contracts.
+ * Botrem Edge — an explainable fair-value signal for Up/Down Event Contracts.
  *
  * Model: over short horizons BTC log-returns are ~driftless Brownian motion, so
  *   P(close >= open) = Phi( ln(S / K) / (sigma * sqrt(tau)) )

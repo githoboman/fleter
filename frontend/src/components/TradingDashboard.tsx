@@ -6,14 +6,14 @@ import { toHuman } from '@somnia-chain/markets-sdk';
 import { PriceChart, type TradeMarker } from './PriceChart';
 import { TradePanel } from './TradePanel';
 import { DreamPositionsList } from './DreamPositions';
-import { useBitdrumWallet } from './BitdrumWalletProvider';
+import { useBotremWallet } from './BotremWalletProvider';
 import { Eyebrow, Panel, StatPill } from './ObsidianPrimitives';
 import { useUpDownMarket } from '../hooks/useUpDownMarket';
 import { useDreamPositions } from '../hooks/useDreamPositions';
 import { useCollateralBalance } from '../hooks/useCollateralBalance';
 import { COLLATERAL_SYMBOL } from '../lib/dreamdex/client';
 import type { Asset, CadenceSec, UpDownSnapshot } from '../lib/dreamdex/markets';
-import { formatTimeframe, type TradeExecutionRecord } from '../utils/bitdrum';
+import { formatTimeframe, type TradeExecutionRecord } from '../utils/botrem';
 
 const ASSETS: Asset[] = ['BTC', 'ETH'];
 
@@ -53,7 +53,7 @@ function WindowBook({ snap }: { snap: UpDownSnapshot | null }) {
   if (!snap) {
     return (
       <p className="py-10 text-center text-[0.68rem] uppercase tracking-[0.34em] text-[var(--text-muted)]">
-        Locating live BitDrum window...
+        Locating live Botrem window...
       </p>
     );
   }
@@ -91,7 +91,7 @@ function WindowBook({ snap }: { snap: UpDownSnapshot | null }) {
 }
 
 export const TradingDashboard = () => {
-  const { address, username, authenticated, error: walletError, connect, disconnect, openProfile } = useBitdrumWallet();
+  const { address, username, authenticated, error: walletError, connect, disconnect, openProfile } = useBotremWallet();
 
   const [asset, setAsset] = useState<Asset>('BTC');
   const [cadence, setCadence] = useState<CadenceSec>(300);
@@ -153,7 +153,7 @@ export const TradingDashboard = () => {
 
   const handleTradeSubmitted = (record: TradeExecutionRecord) => {
     if (record.status === 'confirmed') {
-      setToast({ title: 'Order filled', message: `${record.direction} · ${record.stake} ${COLLATERAL_SYMBOL} routed to BitDrum`, tone: 'up' });
+      setToast({ title: 'Order filled', message: `${record.direction} · ${record.stake} ${COLLATERAL_SYMBOL} routed to Botrem`, tone: 'up' });
     }
     setPendingTrades((previous) => {
       const idx = previous.findIndex((t) => t.id === record.id || (record.txHash && t.txHash === record.txHash) || (t.status === 'submitted' && t.submittedAt === record.submittedAt));
@@ -234,7 +234,7 @@ export const TradingDashboard = () => {
               <Panel className="p-5">
                 <Eyebrow accent="core">Venue</Eyebrow>
                 <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                  Orders are signed by your wallet and routed to BitDrum Markets on Bot Chain Testnet. Collateral is BOT.
+                  Orders are signed by your wallet and routed to Botrem Markets on Bot Chain Testnet. Collateral is BOT.
                 </p>
               </Panel>
             </div>
@@ -257,7 +257,7 @@ export const TradingDashboard = () => {
           )}
           {marketError && (
             <div className="rounded-[1.55rem] border border-[rgba(245,185,66,0.22)] bg-[rgba(245,185,66,0.08)] px-5 py-4 text-sm text-[var(--text-primary)] break-words">
-              BitDrum feed hiccup — retrying. {marketError}
+              Botrem feed hiccup — retrying. {marketError}
             </div>
           )}
 
@@ -299,7 +299,7 @@ export const TradingDashboard = () => {
                 {asset} {currentPrice ? `$${fmt(currentPrice)}` : '--'}
               </span>
               <div className="rounded-full border border-[rgba(59,130,246,0.18)] bg-[rgba(59,130,246,0.08)] px-3 py-1 text-[0.62rem] uppercase tracking-[0.24em] text-[var(--accent-core)]">
-                BitDrum
+                Botrem
               </div>
             </div>
           </div>

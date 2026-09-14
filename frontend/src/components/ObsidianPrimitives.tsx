@@ -10,7 +10,7 @@ export function BrandMark({ compact = false, className }: { compact?: boolean; c
       <div className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-[1.2rem] border border-[color:var(--border-strong)] bg-[radial-gradient(circle_at_30%_30%,rgba(245,185,66,0.12),transparent_45%),linear-gradient(145deg,#0f0f0f,#050505)] shadow-[0_18px_46px_rgba(0,0,0,0.45)]">
         <Image
           src="/logo.png"
-          alt="BitDrum logo"
+          alt="Botrem logo"
           fill
           sizes="56px"
           className="object-cover"
@@ -20,7 +20,7 @@ export function BrandMark({ compact = false, className }: { compact?: boolean; c
       {!compact ? (
         <div className="min-w-0">
           <div className="font-heading text-[1.1rem] font-semibold tracking-[-0.04em] text-[var(--text-primary)]">
-            BitDrum
+            Botrem
           </div>
           <div className="text-[0.68rem] uppercase tracking-[0.34em] text-[var(--text-muted)]">
             Obsidian Core

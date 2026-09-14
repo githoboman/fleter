@@ -1,5 +1,5 @@
 /**
- * Write side: BitDrum's one-tap UP / DOWN stake, mapped onto a BitDrum
+ * Write side: Botrem's one-tap UP / DOWN stake, mapped onto a Botrem
  * Event Contract market order (IOC) sized by walking the live book.
  */
 import { erc20Abi, type Address, type Hex } from "viem";
@@ -10,7 +10,7 @@ import {
   ORDER_TYPE,
   type BinaryStakeQuote,
 } from "@somnia-chain/markets-sdk";
-import { getExchange, requireSigner, BITDRUM_BUILDER, COLLATERAL_ADDRESS, COLLATERAL_DECIMALS } from "./client";
+import { getExchange, requireSigner, BOTREM_BUILDER, COLLATERAL_ADDRESS, COLLATERAL_DECIMALS } from "./client";
 import { snapshotUpDown, type UpDownSnapshot } from "./markets";
 
 export type Direction = "UP" | "DOWN";
@@ -44,7 +44,7 @@ export function getBookParams(pool: Address) {
 }
 
 /**
- * Protective-limit cushion for interactive wallets. The BitDrum market maker
+ * Protective-limit cushion for interactive wallets. The Botrem market maker
  * re-quotes every few seconds (we measured 17¢ moves in ~5s) and a wallet
  * confirmation takes ~10s, so the SDK's 3% default routinely lands behind the
  * book and the IOC crosses nothing. Fills still happen at resting prices —
@@ -111,7 +111,7 @@ export async function placeStake(
     quantity: quote.raw.quantity,
     orderType: ORDER_TYPE.MARKET,
     autoApprove: true,
-    ...(BITDRUM_BUILDER ? { builder: BITDRUM_BUILDER } : {}),
+    ...(BOTREM_BUILDER ? { builder: BOTREM_BUILDER } : {}),
   });
   const filled = res.fills.reduce((sum, f) => sum + f.quantityFilled, 0n);
   return {

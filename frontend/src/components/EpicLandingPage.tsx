@@ -259,7 +259,7 @@ export function EpicLandingPage() {
             >
               <Image
                 src="/hero-character.jpg"
-                alt="BitDrum Oracle Character"
+                alt="Botrem Oracle Character"
                 width={480}
                 height={580}
                 className="object-contain drop-shadow-[0_0_60px_rgba(59,130,246,0.5)]"
@@ -380,7 +380,7 @@ export function EpicLandingPage() {
                 num: '01',
                 icon: TrendingUp,
                 title: 'Read the Signal',
-                body: 'The BitDrum oracle reads BTC price momentum, adapter freshness, and vault depth to compute a real-time directional edge.',
+                body: 'The Botrem oracle reads BTC price momentum, adapter freshness, and vault depth to compute a real-time directional edge.',
                 color: '#22d3ee',
                 gradient: 'rgba(34,211,238,0.08)',
               },
@@ -590,7 +590,7 @@ export function EpicLandingPage() {
             <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
               <span className="text-black font-black text-xs">B</span>
             </div>
-            <span className="text-white/30 text-sm">BitDrum · Bot Chain Prediction Protocol</span>
+            <span className="text-white/30 text-sm">Botrem · Bot Chain Prediction Protocol</span>
           </div>
           <p className="text-white/20 text-xs">Trading involves risk. This is a testnet. Funds have no real value.</p>
         </div>

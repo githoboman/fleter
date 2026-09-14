@@ -1,6 +1,6 @@
 'use client';
 
-import { useBitdrumWallet } from './BitdrumWalletProvider';
+import { useBotremWallet } from './BotremWalletProvider';
 import { useDreamPositions } from '../hooks/useDreamPositions';
 import { useCollateralBalance } from '../hooks/useCollateralBalance';
 import { COLLATERAL_SYMBOL } from '../lib/dreamdex/client';
@@ -10,7 +10,7 @@ import { Eyebrow, Panel, StatPill } from './ObsidianPrimitives';
 const fmt = (n: number) => n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export function PortfolioBoard() {
-  const { address, authenticated } = useBitdrumWallet();
+  const { address, authenticated } = useBotremWallet();
   const { positions } = useDreamPositions(address);
   const { balance } = useCollateralBalance(address);
 
@@ -42,7 +42,7 @@ export function PortfolioBoard() {
           Every call, settlement, and redeem
         </h2>
         <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
-          Holdings are read straight from BitDrum. Winning shares pay 1 {COLLATERAL_SYMBOL} each once the window resolves — redeem them here.
+          Holdings are read straight from Botrem. Winning shares pay 1 {COLLATERAL_SYMBOL} each once the window resolves — redeem them here.
         </p>
         <div className="mt-6">
           <DreamPositionsList />

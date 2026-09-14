@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { ExternalLink, Loader2 } from 'lucide-react';
-import { useBitdrumWallet } from './BitdrumWalletProvider';
+import { useBotremWallet } from './BotremWalletProvider';
 import { useDreamPositions, DREAM_POSITIONS_KEY } from '../hooks/useDreamPositions';
 import { COLLATERAL_BALANCE_KEY } from '../hooks/useCollateralBalance';
 import { COLLATERAL_SYMBOL, explorerTxUrl } from '../lib/dreamdex/client';
 import { redeemPosition, type DreamPosition } from '../lib/dreamdex/positions';
-import { formatTimeframe } from '../utils/bitdrum';
+import { formatTimeframe } from '../utils/botrem';
 import { Panel, StatPill } from './ObsidianPrimitives';
 
 const fmt = (n: number | null, digits = 2) =>
@@ -146,7 +146,7 @@ export function PositionCard({
 }
 
 export function DreamPositionsList({ compact = false, limit }: { compact?: boolean; limit?: number }) {
-  const { address, authenticated, connect } = useBitdrumWallet();
+  const { address, authenticated, connect } = useBotremWallet();
   const { positions, isLoading, error } = useDreamPositions(address);
   const rows = limit ? positions.slice(0, limit) : positions;
 
@@ -174,7 +174,7 @@ export function DreamPositionsList({ compact = false, limit }: { compact?: boole
 
   if (isLoading && !positions.length) {
     return (
-      <p className="py-10 text-center text-[0.68rem] uppercase tracking-[0.34em] text-[var(--text-muted)]">Reading BitDrum positions...</p>
+      <p className="py-10 text-center text-[0.68rem] uppercase tracking-[0.34em] text-[var(--text-muted)]">Reading Botrem positions...</p>
     );
   }
 

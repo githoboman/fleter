@@ -4,9 +4,9 @@ import { ArrowRight, Bot, BrainCircuit, ChevronDown, Radar, Trophy, Waves, Zap }
 import { AppLink, BrandMark, Panel, SectionTitle, StatPill } from './ObsidianPrimitives';
 
 const venueFacts = [
-  { name: 'Liquidity', detail: 'BitDrum Up/Down order books', score: 'CLOB', accent: 'gold' as const },
+  { name: 'Liquidity', detail: 'Botrem Up/Down order books', score: 'CLOB', accent: 'gold' as const },
   { name: 'Settlement', detail: 'Bot Chain oracle, 1 BOT per winning share', score: 'On-chain', accent: 'core' as const },
-  { name: 'Revenue', detail: 'Builder fee on every order BitDrum routes', score: 'Per order', accent: 'success' as const },
+  { name: 'Revenue', detail: 'Builder fee on every order Botrem routes', score: 'Per order', accent: 'success' as const },
 ];
 
 export function LandingPage() {
@@ -21,7 +21,7 @@ export function LandingPage() {
           <BrandMark className="mb-12" />
           <div className="max-w-3xl">
             <p className="mb-5 text-[0.72rem] uppercase tracking-[0.34em] text-[var(--accent-gold)]">
-              Signal layer for BitDrum Markets
+              Signal layer for Botrem Markets
             </p>
             <h1 className="font-heading text-[clamp(3.1rem,6vw,6.4rem)] font-semibold leading-[0.9] tracking-[-0.08em] text-[var(--text-primary)]">
               Make the Call.
@@ -29,7 +29,7 @@ export function LandingPage() {
               Beat the Market.
             </h1>
             <p className="mt-7 max-w-2xl text-[1.08rem] leading-8 text-[var(--text-secondary)]">
-              One-tap Bitcoin Up/Down calls on BitDrum, with a fair-value model that tells you when the book is mispriced.
+              One-tap Bitcoin Up/Down calls on Botrem, with a fair-value model that tells you when the book is mispriced.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <AppLink href="/arena">Enter App</AppLink>
@@ -38,8 +38,8 @@ export function LandingPage() {
               </AppLink>
             </div>
             <div className="mt-10 flex flex-wrap gap-3">
-              <StatPill label="Venue" value="BitDrum" accent="gold" />
-              <StatPill label="Signal Layer" value="BitDrum Edge" accent="core" />
+              <StatPill label="Venue" value="Botrem" accent="gold" />
+              <StatPill label="Signal Layer" value="Botrem Edge" accent="core" />
               <StatPill label="Windows" value="1m / 5m" />
             </div>
           </div>
@@ -151,12 +151,12 @@ export function LandingPage() {
         <SectionTitle
           eyebrow="How It Works"
           title="Three fast decisions. One sharp outcome."
-          description="BitDrum is built for traders who want speed, clarity, and conviction without noise."
+          description="Botrem is built for traders who want speed, clarity, and conviction without noise."
         />
 
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {[
-            { icon: BrainCircuit, title: 'Read the Edge', body: 'BitDrum prices the live window itself and shows you where the BitDrum book disagrees.' },
+            { icon: BrainCircuit, title: 'Read the Edge', body: 'Botrem prices the live window itself and shows you where the Botrem book disagrees.' },
             { icon: Zap, title: 'Tap UP or DOWN', body: 'Your stake becomes a market order sized against the live book — payout and max loss shown before you sign.' },
             { icon: Trophy, title: 'Settle and Redeem', body: 'When the window closes the oracle resolves it; winning shares redeem for collateral in one tap.' },
           ].map((item, index) => (
@@ -178,7 +178,7 @@ export function LandingPage() {
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <Panel tone="core" className="p-8 lg:p-10">
             <SectionTitle
-              eyebrow="BitDrum Edge"
+              eyebrow="Botrem Edge"
               accent="core"
               title="Model probability vs. what the book is charging."
               description="Distance from the open, time left, and realized volatility give a fair P(UP). The call only fires when the gap clears the spread."
@@ -209,9 +209,9 @@ export function LandingPage() {
 
           <Panel className="p-8">
             <SectionTitle
-              eyebrow="Built on BitDrum"
+              eyebrow="Built on Botrem"
               title="A front end with a business model."
-              description="BitDrum keeps the UX and the signal; BitDrum Markets supply liquidity and settlement."
+              description="Botrem keeps the UX and the signal; Botrem Markets supply liquidity and settlement."
               accent="gold"
             />
             <div className="mt-8 flex flex-col gap-3">

@@ -1,6 +1,6 @@
 'use client';
 /**
- * Live BitDrum Up/Down market + BitDrum Edge signal for one asset/cadence.
+ * Live Botrem Up/Down market + Botrem Edge signal for one asset/cadence.
  * Refreshes every `refreshMs`, and rolls to the next market in the series
  * automatically when the current one expires.
  */

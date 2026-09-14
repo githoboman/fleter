@@ -11,14 +11,14 @@ import {
   ShieldCheck,
   Wallet,
 } from 'lucide-react';
-import { useBitdrumWallet } from './BitdrumWalletProvider';
+import { useBotremWallet } from './BotremWalletProvider';
 import { useCollateralBalance, COLLATERAL_BALANCE_KEY } from '../hooks/useCollateralBalance';
 import { DREAM_POSITIONS_KEY } from '../hooks/useDreamPositions';
 import { COLLATERAL_SYMBOL, attachWallet, explorerTxUrl, signerAddress } from '../lib/dreamdex/client';
 import type { CadenceSec, UpDownSnapshot } from '../lib/dreamdex/markets';
 import { claimTestCollateral, DEFAULT_SLIPPAGE_BPS, placeStake, quoteStake, type StakeQuoteView } from '../lib/dreamdex/trade';
 import type { EdgeSignal } from '../lib/signal/fairValue';
-import { formatTimeframe, type BitdrumDirection, type TradeExecutionRecord } from '../utils/bitdrum';
+import { formatTimeframe, type BotremDirection, type TradeExecutionRecord } from '../utils/botrem';
 import { Eyebrow, Panel, StatPill } from './ObsidianPrimitives';
 
 /** Trading is disabled this close to expiry — the tx would race the lock. */
@@ -50,7 +50,7 @@ export const TradePanel = ({
   onTradeSubmitted?: (record: TradeExecutionRecord) => void;
 }) => {
   const queryClient = useQueryClient();
-  const { wallet, address, authenticated, connecting, connect } = useBitdrumWallet();
+  const { wallet, address, authenticated, connecting, connect } = useBotremWallet();
 
   // Belt and braces: make sure the SDK signs with the wallet on screen.
   const ensureSigner = () => {
@@ -62,7 +62,7 @@ export const TradePanel = ({
   const needsGas = authenticated && gas !== null && gas <= 0;
 
   const [stake, setStake] = useState('5');
-  const [previewDirection, setPreviewDirection] = useState<BitdrumDirection>('UP');
+  const [previewDirection, setPreviewDirection] = useState<BotremDirection>('UP');
   const [slippageBps, setSlippageBps] = useState<bigint>(DEFAULT_SLIPPAGE_BPS);
   const [quote, setQuote] = useState<StakeQuoteView | null>(null);
   const [quoteState, setQuoteState] = useState<'idle' | 'loading' | 'too-small' | 'no-liquidity' | 'error'>('idle');
@@ -215,14 +215,14 @@ export const TradePanel = ({
   const rationale =
     signal?.rationale ??
     (marketError
-      ? 'BitDrum feed unavailable — retrying.'
+      ? 'Botrem feed unavailable — retrying.'
       : snap
         ? 'Waiting for the opening price and a live book before pricing this window.'
-        : 'Locating the live BitDrum Up/Down window for this cadence.');
+        : 'Locating the live Botrem Up/Down window for this cadence.');
 
   const pct = (x: number | null | undefined) => (x === null || x === undefined ? '--' : `${(x * 100).toFixed(1)}%`);
 
-  const bestAskFor = (direction: BitdrumDirection) => (direction === 'UP' ? snap?.bestUpAsk : snap?.bestDownAsk) ?? null;
+  const bestAskFor = (direction: BotremDirection) => (direction === 'UP' ? snap?.bestUpAsk : snap?.bestDownAsk) ?? null;
 
   const formatErrorMessage = (msg: string) => {
     if (!msg) return '';
@@ -237,7 +237,7 @@ export const TradePanel = ({
   const tradeDisabled = isPending || connecting || (authenticated && (!quote || locking || quoteState === 'loading'));
 
   const ctaLabel = useMemo(() => {
-    if (isPending) return 'Routing to BitDrum...';
+    if (isPending) return 'Routing to Botrem...';
     if (!authenticated) return 'Connect Bot Chain wallet';
     if (!snap) return 'No live window';
     if (locking) return 'Window locking';
@@ -273,7 +273,7 @@ export const TradePanel = ({
         <div className="rounded-[1.85rem] border border-[rgba(59,130,246,0.16)] bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.12),transparent_42%),linear-gradient(145deg,#0f1218,#0a0d11)] p-5">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <Eyebrow accent="core">BitDrum Edge</Eyebrow>
+              <Eyebrow accent="core">Botrem Edge</Eyebrow>
               <h4 className="mt-3 font-heading text-[1.45rem] font-semibold tracking-[-0.04em] text-[var(--text-primary)]">
                 Model vs. market
               </h4>
@@ -380,7 +380,7 @@ export const TradePanel = ({
         {needsGas ? (
           <div className="rounded-[1.4rem] border border-[rgba(245,185,66,0.25)] bg-[rgba(245,185,66,0.08)] px-4 py-3 text-[0.8rem] leading-6 text-[var(--text-primary)]">
             No STT for gas — Bot Chain won&apos;t accept a transaction from an unfunded account.{' '}
-            <a href="https://testnet.somnia.network/" target="_blank" rel="noopener noreferrer" className="underline text-[var(--accent-gold)]">
+            <a href="https://testnet.botchain.network/" target="_blank" rel="noopener noreferrer" className="underline text-[var(--accent-gold)]">
               Get Testnet BOT from the Bot Chain faucet
             </a>
             , then come back for BOT.
@@ -388,7 +388,7 @@ export const TradePanel = ({
         ) : null}
 
         <div className="grid grid-cols-2 gap-4">
-          {(['UP', 'DOWN'] as BitdrumDirection[]).map((direction) => {
+          {(['UP', 'DOWN'] as BotremDirection[]).map((direction) => {
             const active = previewDirection === direction;
             const isUp = direction === 'UP';
             const ask = bestAskFor(direction);
@@ -444,7 +444,7 @@ export const TradePanel = ({
           <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent)] -translate-x-full animate-[shimmer_2s_infinite]" />
           <div className="relative">
             <div className="text-[0.62rem] font-black uppercase tracking-[0.3em] text-[#4d3300] opacity-60">
-              {authenticated ? 'BitDrum Market · IOC' : 'Security layer'}
+              {authenticated ? 'Botrem Market · IOC' : 'Security layer'}
             </div>
             <div className="mt-2 font-heading text-2xl font-bold tracking-tight">{ctaLabel}</div>
           </div>

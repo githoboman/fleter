@@ -1,0 +1,98 @@
+import { createPublicClient, createWalletClient, http, parseUnits } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { defineChain } from 'viem';
+
+// 1. Define Bot Chain Testnet
+const botchainTestnet = defineChain({
+  id: 968, // Replace with actual Bot Chain Testnet ID if different
+  name: 'Bot Chain Testnet',
+  nativeCurrency: { name: 'BOT', symbol: 'BOT', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://rpc.bohr.life'] },
+    public: { http: ['https://rpc.bohr.life'] },
+  },
+  blockExplorers: {
+    default: { name: 'BotScan', url: 'https://scan.bohr.life' },
+  },
+});
+
+// 2. Setup Clients
+const rpcUrl = 'https://rpc.bohr.life';
+
+const publicClient = createPublicClient({
+  chain: botchainTestnet,
+  transport: http(rpcUrl)
+});
+
+// IMPORTANT: Replace this with your funded Testnet private key (e.g. from .env)
+const PRIVATE_KEY = process.env.PRIVATE_KEY || '0x0000000000000000000000000000000000000000000000000000000000000000';
+const account = privateKeyToAccount(PRIVATE_KEY as `0x${string}`);
+
+const walletClient = createWalletClient({
+  account,
+  chain: botchainTestnet,
+  transport: http(rpcUrl)
+});
+
+// 3. Contract Addresses and ABI
+const PREDICTION_MARKET_ADDRESS = '0x0478E0bF2d6C969365Ae33eDbBbB40e467F43BAB';
+
+// Minimal ABI to create a position
+const MARKET_ABI = [
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "marketId", "type": "uint256" },
+      { "internalType": "uint8", "name": "direction", "type": "uint8" } // 0 = UP, 1 = DOWN
+    ],
+    "name": "createPosition",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  }
+] as const;
+
+async function main() {
+  console.log(`Starting Market Test script...`);
+  console.log(`Testing from account: ${account.address}`);
+
+  try {
+    const balance = await publicClient.getBalance({ address: account.address });
+    console.log(`Current Balance: ${balance} wei`);
+
+    if (balance === 0n) {
+      console.error("Error: Account has no BOT. Please fund it first.");
+      return;
+    }
+
+    const marketId = 1n; // Assuming market ID 1 exists or you dynamically fetch it
+    const direction = 0; // UP
+    const stakeAmount = parseUnits('0.1', 18); // 0.1 BOT
+
+    console.log(`Placing a 0.1 BOT UP call on market ${marketId}...`);
+
+    const { request } = await publicClient.simulateContract({
+      account,
+      address: PREDICTION_MARKET_ADDRESS,
+      abi: MARKET_ABI,
+      functionName: 'createPosition',
+      args: [marketId, direction],
+      value: stakeAmount
+    });
+
+    const txHash = await walletClient.writeContract(request);
+    
+    console.log(`Transaction sent! Waiting for confirmation...`);
+    console.log(`Tx Hash: ${txHash}`);
+
+    const receipt = await publicClient.waitForTransactionReceipt({ hash: txHash });
+    
+    console.log(`Transaction confirmed in block ${receipt.blockNumber}`);
+    console.log(`Success! You have entered a position on Bot Chain Testnet.`);
+
+  } catch (error) {
+    console.error("Test failed:");
+    console.error(error);
+  }
+}
+
+main().catch(console.error);

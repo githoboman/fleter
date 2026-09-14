@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutGrid, Radar, Wallet } from 'lucide-react';
 import { BrandMark, Eyebrow, Panel } from './ObsidianPrimitives';
-import { useBitdrumWallet } from './BitdrumWalletProvider';
-import { shortAddress } from '../utils/bitdrum';
+import { useBotremWallet } from './BotremWalletProvider';
+import { shortAddress } from '../utils/botrem';
 import { useCollateralBalance } from '../hooks/useCollateralBalance';
 import { COLLATERAL_SYMBOL } from '../lib/dreamdex/client';
 
@@ -36,7 +36,7 @@ export function AppShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { authenticated, address, connect, connecting, error: walletError } = useBitdrumWallet();
+  const { authenticated, address, connect, connecting, error: walletError } = useBotremWallet();
   const { balance } = useCollateralBalance(address);
 
   return (
@@ -75,7 +75,7 @@ export function AppShell({
             <Panel className="mt-8 p-5">
               <Eyebrow accent="gold">Session</Eyebrow>
               <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                {authenticated ? shortAddress(address || '') : 'Connect your Bot Chain wallet to trade BitDrum windows, redeem, and track your edge.'}
+                {authenticated ? shortAddress(address || '') : 'Connect your Bot Chain wallet to trade Botrem windows, redeem, and track your edge.'}
               </p>
               {authenticated && balance !== null && (
                 <div className="mt-2 text-sm font-semibold text-[var(--accent-gold)]">
@@ -100,7 +100,7 @@ export function AppShell({
 
         <main className="min-w-0">
           <Panel className="mb-6 p-5 sm:p-6">
-            <Eyebrow accent="gold">BitDrum App</Eyebrow>
+            <Eyebrow accent="gold">Botrem App</Eyebrow>
             <h1 className="mt-3 font-heading text-[clamp(2.2rem,4vw,4.2rem)] font-semibold leading-[0.92] tracking-[-0.06em] text-[var(--text-primary)]">
               {title}
             </h1>

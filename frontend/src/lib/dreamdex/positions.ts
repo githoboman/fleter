@@ -1,6 +1,6 @@
 /**
  * Positions: the wallet's open Up/Down holdings (marked to the book) plus the
- * settled winners it can redeem — shaped for the BitDrum portfolio views.
+ * settled winners it can redeem — shaped for the Botrem portfolio views.
  */
 import type { Address, Hex } from "viem";
 import { toHuman } from "@somnia-chain/markets-sdk";

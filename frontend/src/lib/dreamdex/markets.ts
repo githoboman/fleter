@@ -1,6 +1,6 @@
 /**
  * Read side: find the live BTC/ETH Up/Down Event Contract for a cadence and
- * snapshot everything the BitDrum UI and signal need from it.
+ * snapshot everything the Botrem UI and signal need from it.
  */
 import type { Address } from "viem";
 import {
@@ -14,7 +14,7 @@ import { getExchange, ORACLE_PRICE_DECIMALS } from "./client";
 import type { Candle } from "../signal/fairValue";
 
 export type Asset = "BTC" | "ETH";
-/** BitDrum series cadences BitDrum exposes (1m and 5m match BitDrum's original timeframes). */
+/** Botrem series cadences Botrem exposes (1m and 5m match Botrem's original timeframes). */
 export type CadenceSec = 60 | 300;
 
 export type UpDownSnapshot = {

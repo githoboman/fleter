@@ -1,11 +1,11 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { connectBitdrumWallet, type BitdrumWallet } from '../utils/bitdrum';
+import { connectBotremWallet, type BotremWallet } from '../utils/botrem';
 import { attachWallet, detachWallet, signerAddress } from '../lib/dreamdex/client';
 
-type BitdrumWalletContextValue = {
-  wallet: BitdrumWallet | null;
+type BotremWalletContextValue = {
+  wallet: BotremWallet | null;
   address: string | null;
   username: string | null;
   authenticated: boolean;
@@ -16,14 +16,14 @@ type BitdrumWalletContextValue = {
   openProfile: () => Promise<void>;
 };
 
-const BitdrumWalletContext = createContext<BitdrumWalletContextValue | null>(null);
+const BotremWalletContext = createContext<BotremWalletContextValue | null>(null);
 
-export function BitdrumWalletProvider({ children }: { children: React.ReactNode }) {
-  const [wallet, setWallet] = useState<BitdrumWallet | null>(null);
+export function BotremWalletProvider({ children }: { children: React.ReactNode }) {
+  const [wallet, setWallet] = useState<BotremWallet | null>(null);
   const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Keep the BitDrum signer in step with the wallet state, including after a
+  // Keep the Botrem signer in step with the wallet state, including after a
   // hot reload re-creates the exchange singleton underneath a connected wallet.
   useEffect(() => {
     if (!wallet) return;
@@ -41,8 +41,8 @@ export function BitdrumWalletProvider({ children }: { children: React.ReactNode 
     setError(null);
 
     try {
-      const nextWallet = await connectBitdrumWallet();
-      // Same viem walletClient signs BitDrum orders, redeems, and faucet calls.
+      const nextWallet = await connectBotremWallet();
+      // Same viem walletClient signs Botrem orders, redeems, and faucet calls.
       attachWallet(nextWallet.walletClient, nextWallet.address);
       setWallet(nextWallet);
     } catch (caughtError: any) {
@@ -80,7 +80,7 @@ export function BitdrumWalletProvider({ children }: { children: React.ReactNode 
   };
 
   return (
-    <BitdrumWalletContext.Provider
+    <BotremWalletContext.Provider
       value={{
         wallet,
         address: wallet?.address ?? null,
@@ -94,15 +94,15 @@ export function BitdrumWalletProvider({ children }: { children: React.ReactNode 
       }}
     >
       {children}
-    </BitdrumWalletContext.Provider>
+    </BotremWalletContext.Provider>
   );
 }
 
-export function useBitdrumWallet() {
-  const context = useContext(BitdrumWalletContext);
+export function useBotremWallet() {
+  const context = useContext(BotremWalletContext);
 
   if (!context) {
-    throw new Error('useBitdrumWallet must be used within BitdrumWalletProvider');
+    throw new Error('useBotremWallet must be used within BotremWalletProvider');
   }
 
   return context;
