@@ -19,7 +19,7 @@ import {
 import { somniaShannon as botchainShannon } from "@somnia-chain/markets-sdk/chains";
 
 export const DREAMDEX_TESTNET = {
-  indexerUrl: "https://dev.smk.botchain.host/v1/graphql",
+  indexerUrl: "https://dev.smk.somnia.host/v1/graphql",
   wsRpcUrl: "https://rpc.bohr.life",
   // The SDK inlines its own viem Chain typing; the runtime object is a plain viem chain.
   chain: botchainShannon as unknown as Chain,

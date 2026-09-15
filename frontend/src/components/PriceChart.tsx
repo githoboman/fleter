@@ -436,7 +436,7 @@ export const PriceChart: React.FC<PriceChartProps> = ({
                 {chartMode === 'basic' ? 'Advanced' : 'Basic'}
               </button>
               <a
-                href="https://dreamdex.botchain.network"
+                href="https://dreamdex.somnia.network"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--border-subtle)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition hover:border-[rgba(59,130,246,0.18)] hover:text-[var(--text-primary)]"

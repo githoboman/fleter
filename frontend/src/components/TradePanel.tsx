@@ -380,7 +380,7 @@ export const TradePanel = ({
         {needsGas ? (
           <div className="rounded-[1.4rem] border border-[rgba(245,185,66,0.25)] bg-[rgba(245,185,66,0.08)] px-4 py-3 text-[0.8rem] leading-6 text-[var(--text-primary)]">
             No STT for gas — Bot Chain won&apos;t accept a transaction from an unfunded account.{' '}
-            <a href="https://testnet.botchain.network/" target="_blank" rel="noopener noreferrer" className="underline text-[var(--accent-gold)]">
+            <a href="https://testnet.somnia.network/" target="_blank" rel="noopener noreferrer" className="underline text-[var(--accent-gold)]">
               Get Testnet BOT from the Bot Chain faucet
             </a>
             , then come back for BOT.
