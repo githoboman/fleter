@@ -2,19 +2,37 @@
 
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import dynamic from 'next/dynamic';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { defineChain } from 'viem';
 
-const BotremWalletProvider = dynamic(
-  () => import('./BotremWalletProvider').then(m => m.BotremWalletProvider),
-  { ssr: false }
-);
+// Define Bot Chain Testnet
+export const botChainTestnet = defineChain({
+  id: 968,
+  name: 'Bot Chain Testnet',
+  nativeCurrency: { name: 'BOT', symbol: 'BOT', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://rpc.bohr.life'] },
+  },
+  blockExplorers: {
+    default: { name: 'BotScan', url: 'https://scan.bohr.life' },
+  },
+});
+
+export const wagmiConfig = createConfig({
+  chains: [botChainTestnet],
+  transports: {
+    [botChainTestnet.id]: http(),
+  },
+});
 
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BotremWalletProvider>{children}</BotremWalletProvider>
-    </QueryClientProvider>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }

@@ -1,22 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter, JetBrains_Mono, Syne } from 'next/font/google';
-
-const headingFont = Syne({
-  subsets: ['latin'],
-  variable: '--font-heading',
-  weight: ['400', '500', '600', '700', '800'],
-});
-
-const bodyFont = Inter({
-  subsets: ['latin'],
-  variable: '--font-body',
-});
-
-const monoFont = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-});
 
 export const metadata: Metadata = {
   title: "Botrem | Make the Call. Beat the Market.",
@@ -46,9 +29,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+      </head>
       <body
         suppressHydrationWarning
-        className={`${headingFont.variable} ${bodyFont.variable} ${monoFont.variable} min-h-screen bg-[var(--bg-primary)] font-body text-[var(--text-primary)] antialiased`}
+        className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased"
+        style={{
+          fontFamily: "'Inter', sans-serif",
+          '--font-heading': "'Syne', sans-serif",
+          '--font-mono': "'JetBrains Mono', monospace",
+        } as React.CSSProperties}
       >
         <Providers>
           {children}

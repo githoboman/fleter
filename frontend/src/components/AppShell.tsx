@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutGrid, Radar, Wallet } from 'lucide-react';
 import { BrandMark, Eyebrow, Panel } from './ObsidianPrimitives';
-import { useBotremWallet } from './BotremWalletProvider';
+import { useAccount, useConnect, useDisconnect, useBalance } from 'wagmi';
+import { injected } from 'wagmi/connectors';
+import { formatUnits } from 'viem';
 import { shortAddress } from '../utils/botrem';
-import { useCollateralBalance } from '../hooks/useCollateralBalance';
-import { COLLATERAL_SYMBOL } from '../lib/dreamdex/client';
+
+const COLLATERAL_SYMBOL = 'BOT';
 
 const navItems = [
   { href: '/arena', label: 'Arena', icon: LayoutGrid },
@@ -36,8 +38,12 @@ export function AppShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { authenticated, address, connect, connecting, error: walletError } = useBotremWallet();
-  const { balance } = useCollateralBalance(address);
+  const { address, isConnected } = useAccount();
+  const { connect, isPending } = useConnect();
+  
+  const { data: balanceData } = useBalance({
+    address,
+  });
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[var(--bg-primary)]">
@@ -75,23 +81,20 @@ export function AppShell({
             <Panel className="mt-8 p-5">
               <Eyebrow accent="gold">Session</Eyebrow>
               <p className="mt-4 text-sm leading-7 text-[var(--text-secondary)]">
-                {authenticated ? shortAddress(address || '') : 'Connect your Bot Chain wallet to trade Botrem windows, redeem, and track your edge.'}
+                {isConnected ? shortAddress(address || '') : 'Connect your Bot Chain wallet to trade Botrem windows, redeem, and track your edge.'}
               </p>
-              {authenticated && balance !== null && (
+              {isConnected && balanceData && (
                 <div className="mt-2 text-sm font-semibold text-[var(--accent-gold)]">
-                  {balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {COLLATERAL_SYMBOL}
+                  {Number(formatUnits(balanceData.value, balanceData.decimals)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {COLLATERAL_SYMBOL}
                 </div>
               )}
-              {walletError && !authenticated ? (
-                <p className="mt-3 text-[0.75rem] leading-5 text-[var(--state-down)] break-words">{walletError}</p>
-              ) : null}
-              {!authenticated ? (
+              {!isConnected ? (
                 <button
-                  onClick={() => void connect().catch(() => {})}
-                  disabled={connecting}
+                  onClick={() => connect({ connector: injected() })}
+                  disabled={isPending}
                   className="cta-press mt-5 rounded-full bg-[linear-gradient(135deg,var(--accent-gold),#d97706)] px-4 py-2 text-sm text-[#140c00] disabled:opacity-60"
                 >
-                  {connecting ? 'Connecting...' : 'Connect Wallet'}
+                  {isPending ? 'Connecting...' : 'Connect Wallet'}
                 </button>
               ) : null}
             </Panel>

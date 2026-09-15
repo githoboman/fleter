@@ -12,7 +12,11 @@ function Deploy-Contract {
         [string[]]$Arguments
     )
     Write-Host "`n>>> Deploying $ContractName..."
-    $output = forge create "$File`:$ContractName" --rpc-url $RPC --private-key $PK --broadcast --legacy --constructor-args $Arguments 2>&1
+    if ($Arguments.Count -gt 0) {
+        $output = forge create "$File`:$ContractName" --rpc-url $RPC --private-key $PK  --legacy --constructor-args $Arguments 2>&1
+    } else {
+        $output = forge create "$File`:$ContractName" --rpc-url $RPC --private-key $PK  --legacy 2>&1
+    }
     
     $addr = ($output | Select-String -Pattern "Deployed to:\s+(0x[a-fA-F0-9]+)").Matches.Groups[1].Value
     Write-Host "    $ContractName => $addr"
@@ -23,31 +27,31 @@ Write-Host "========================================="
 Write-Host "  BitDrum V2 Manual Deployment (Bot Chain)"
 Write-Host "========================================="
 
-$ADAPTER = Deploy-Contract -ContractName "BitdrumPriceAdapter" -File "src/BitdrumPriceAdapter.sol" -Args $OWNER
-$VAULT = Deploy-Contract -ContractName "LiquidityVaultV2" -File "src/LiquidityVaultV2.sol" -Args $OWNER
-$TREASURY = Deploy-Contract -ContractName "TreasuryV2" -File "src/TreasuryV2.sol" -Args $VAULT, $OWNER, $OWNER
-$LEADERBOARD = Deploy-Contract -ContractName "LeaderboardRegistry" -File "src/LeaderboardRegistry.sol" -Args $OWNER
-$MARKET = Deploy-Contract -ContractName "PredictionMarketV2" -File "src/PredictionMarketV2.sol" -Args $VAULT, $TREASURY, $ADAPTER, $OWNER
-$ENGINE = Deploy-Contract -ContractName "SettlementEngineV2" -File "src/SettlementEngineV2.sol" -Args $MARKET, $LEADERBOARD, $ADAPTER, $OWNER
+$ADAPTER = Deploy-Contract -ContractName "BitdrumPriceAdapter" -File "src/BitdrumPriceAdapter.sol" -Arguments $OWNER
+$VAULT = Deploy-Contract -ContractName "LiquidityVaultV2" -File "src/LiquidityVaultV2.sol" -Arguments $OWNER
+$TREASURY = Deploy-Contract -ContractName "TreasuryV2" -File "src/TreasuryV2.sol" -Arguments $VAULT, $OWNER, $OWNER
+$LEADERBOARD = Deploy-Contract -ContractName "LeaderboardRegistry" -File "src/LeaderboardRegistry.sol" -Arguments $OWNER
+$MARKET = Deploy-Contract -ContractName "PredictionMarketV2" -File "src/PredictionMarketV2.sol" -Arguments $VAULT, $TREASURY, $ADAPTER, $OWNER
+$ENGINE = Deploy-Contract -ContractName "SettlementEngineV2" -File "src/SettlementEngineV2.sol" -Arguments $MARKET, $LEADERBOARD, $ADAPTER, $OWNER
 
 Write-Host "`n========================================="
 Write-Host "  Wiring contracts..."
 Write-Host "========================================="
 
 Write-Host ">>> vault.setPredictionMarket($MARKET)"
-cast send $VAULT "setPredictionMarket(address)" $MARKET --rpc-url $RPC --private-key $PK --broadcast --legacy
+cast send $VAULT "setPredictionMarket(address)" $MARKET --rpc-url $RPC --private-key $PK  --legacy
 
 Write-Host ">>> market.setSettlementEngine($ENGINE) [via keeper setter on PredictionMarketV2]"
-cast send $MARKET "setSettlementEngine(address)" $ENGINE --rpc-url $RPC --private-key $PK --broadcast --legacy
+cast send $MARKET "setSettlementEngine(address)" $ENGINE --rpc-url $RPC --private-key $PK  --legacy
 
 Write-Host ">>> leaderboard.setSettlementEngine($ENGINE)"
-cast send $LEADERBOARD "setSettlementEngine(address)" $ENGINE --rpc-url $RPC --private-key $PK --broadcast --legacy
+cast send $LEADERBOARD "setSettlementEngine(address)" $ENGINE --rpc-url $RPC --private-key $PK  --legacy
 
 Write-Host ">>> adapter.setKeeper($OWNER) [owner is keeper initially]"
-cast send $ADAPTER "setKeeper(address)" $OWNER --rpc-url $RPC --private-key $PK --broadcast --legacy
+cast send $ADAPTER "setKeeper(address)" $OWNER --rpc-url $RPC --private-key $PK  --legacy
 
 Write-Host ">>> vault.deposit() with 50 BOT seed"
-cast send $VAULT "deposit()" --value 50ether --rpc-url $RPC --private-key $PK --broadcast --legacy
+cast send $VAULT "deposit()" --value 50ether --rpc-url $RPC --private-key $PK  --legacy
 
 Write-Host "`n========================================="
 Write-Host "  DEPLOYMENT COMPLETE"

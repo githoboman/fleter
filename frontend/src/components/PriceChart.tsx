@@ -5,8 +5,8 @@ import { AreaSeries, CandlestickSeries, ColorType, IChartApi, ISeriesApi, LineSt
 import { ArrowDownRight, ArrowUpRight, ExternalLink, LayoutPanelLeft, LineChart, Loader2, Waves } from 'lucide-react';
 import { Panel, StatPill } from './ObsidianPrimitives';
 import { type TradeExecutionRecord } from '../utils/botrem';
-import { fetchLivePrice, fetchMinuteCandles, type Asset } from '../lib/dreamdex/markets';
-import { COLLATERAL_SYMBOL } from '../lib/dreamdex/client';
+export type Asset = string;
+const COLLATERAL_SYMBOL = 'BOT';
 
 const ExecutionCard: React.FC<{ execution: TradeExecutionRecord }> = ({ execution }) => {
   const [progress, setProgress] = useState(0);
@@ -298,9 +298,12 @@ export const PriceChart: React.FC<PriceChartProps> = ({
 
     const loadHistory = async () => {
       try {
-        const candles = await fetchMinuteCandles(asset, HISTORY_MINUTES);
+        const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=${HISTORY_MINUTES}`);
+        const data = await res.json();
+        const candles = data.map((d: any) => [d[0], parseFloat(d[1]), parseFloat(d[2]), parseFloat(d[3]), parseFloat(d[4])]);
         if (!active || !candles.length) return;
-        const formatted = candles.map(([ms, open, high, low, close]) =>
+        
+        const formatted = candles.map(([ms, open, high, low, close]: any) =>
           currentMode === 'advanced'
             ? { time: (ms / 1000) as any, open, high, low, close }
             : { time: (ms / 1000) as any, value: close },
@@ -311,42 +314,52 @@ export const PriceChart: React.FC<PriceChartProps> = ({
         onPriceUpdateRef.current?.(nextPrice);
         chart.timeScale().fitContent();
       } catch (error) {
-        if (active) console.error('Failed to fetch price history:', error);
+        if (active) console.error('Failed to fetch price history from Binance:', error);
       }
     };
 
     void loadHistory();
 
-    const interval = setInterval(async () => {
-      if (!active) return;
-      try {
-        const nextPrice = await fetchLivePrice(asset);
-        if (!active || nextPrice === null) return;
-        const nextTime = Math.floor(Date.now() / 1000) as any;
+    let ws: WebSocket | null = null;
+    const connectWS = () => {
+      ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+      ws.onmessage = (event) => {
+        if (!active) return;
+        try {
+          const data = JSON.parse(event.data);
+          if (data.k) {
+            const nextPrice = parseFloat(data.k.c);
+            const nextTime = Math.floor(data.k.t / 1000) as any;
 
-        if (currentMode === 'basic') {
-          (series as ISeriesApi<'Area'>).update({ time: nextTime, value: nextPrice });
-        } else {
-          (series as unknown as ISeriesApi<'Candlestick'>).update({
-            time: nextTime,
-            open: nextPrice,
-            high: nextPrice,
-            low: nextPrice,
-            close: nextPrice,
-          });
+            if (currentMode === 'basic') {
+              (series as ISeriesApi<'Area'>).update({ time: nextTime, value: nextPrice });
+            } else {
+              (series as unknown as ISeriesApi<'Candlestick'>).update({
+                time: nextTime,
+                open: parseFloat(data.k.o),
+                high: parseFloat(data.k.h),
+                low: parseFloat(data.k.l),
+                close: parseFloat(data.k.c),
+              });
+            }
+
+            setCurrentPrice((previous) => {
+              if (previous) setPriceChange(((nextPrice - previous) / previous) * 100);
+              return nextPrice;
+            });
+            onPriceUpdateRef.current?.(nextPrice);
+            setIsLive(true);
+          }
+        } catch (error) {
+          console.error('WebSocket feed error:', error);
         }
-
-        setCurrentPrice((previous) => {
-          if (previous) setPriceChange(((nextPrice - previous) / previous) * 100);
-          return nextPrice;
-        });
-        onPriceUpdateRef.current?.(nextPrice);
-        setIsLive(true);
-      } catch (error) {
-        console.error('Price feed error:', error);
-        if (active) setIsLive(false);
-      }
-    }, LIVE_POLL_MS);
+      };
+      ws.onclose = () => {
+        setIsLive(false);
+        if (active) setTimeout(connectWS, 3000);
+      };
+    };
+    connectWS();
 
     const resizeObserver = new ResizeObserver(() => {
       if (chartContainerRef.current) {
@@ -359,7 +372,7 @@ export const PriceChart: React.FC<PriceChartProps> = ({
     return () => {
       active = false;
       resizeObserver.disconnect();
-      clearInterval(interval);
+      if (ws) ws.close();
       chart.remove();
       seriesRef.current = null;
       chartRef.current = null;
@@ -436,7 +449,7 @@ export const PriceChart: React.FC<PriceChartProps> = ({
                 {chartMode === 'basic' ? 'Advanced' : 'Basic'}
               </button>
               <a
-                href="https://dreamdex.somnia.network"
+                href="https://botrem.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--border-subtle)] bg-[rgba(255,255,255,0.03)] text-[var(--text-secondary)] transition hover:border-[rgba(59,130,246,0.18)] hover:text-[var(--text-primary)]"
