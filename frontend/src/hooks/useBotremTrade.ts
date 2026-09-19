@@ -9,14 +9,19 @@ export function useBotremTrade() {
     hash,
   });
 
+  /**
+   * openMarket(direction: uint8, duration: uint256) payable
+   * The stake is sent as native BOT via msg.value
+   */
   const openMarket = async (direction: 0 | 1, amountInBOT: string, durationSeconds: 60 | 300) => {
     try {
-      const stakeAmount = parseUnits(amountInBOT, 18); // STT has 18 decimals
+      const stakeValue = parseUnits(amountInBOT, 18); // native BOT, 18 decimals
       return await writeContractAsync({
         address: BOTREM_MAINNET_ADDRESSES.PredictionMarketV2 as `0x${string}`,
         abi: PredictionMarketV2ABI as any,
         functionName: 'openMarket',
-        args: [direction, stakeAmount, BigInt(durationSeconds)],
+        args: [direction, BigInt(durationSeconds)], // 2 args only
+        value: stakeValue,                          // stake via msg.value
       });
     } catch (e) {
       console.error('Failed to open market:', e);
@@ -24,14 +29,19 @@ export function useBotremTrade() {
     }
   };
 
-  const joinMarket = async (marketId: bigint, amountInBOT: string) => {
+  /**
+   * joinMarket(marketId: uint256, direction: uint8) payable
+   * The stake is sent as native BOT via msg.value
+   */
+  const joinMarket = async (marketId: bigint, direction: 0 | 1, amountInBOT: string) => {
     try {
-      const stakeAmount = parseUnits(amountInBOT, 18);
+      const stakeValue = parseUnits(amountInBOT, 18);
       return await writeContractAsync({
         address: BOTREM_MAINNET_ADDRESSES.PredictionMarketV2 as `0x${string}`,
         abi: PredictionMarketV2ABI as any,
         functionName: 'joinMarket',
-        args: [marketId, stakeAmount],
+        args: [marketId, direction], // 2 args: marketId + direction
+        value: stakeValue,           // stake via msg.value
       });
     } catch (e) {
       console.error('Failed to join market:', e);
@@ -39,6 +49,9 @@ export function useBotremTrade() {
     }
   };
 
+  /**
+   * claimPayout(marketId: uint256) nonpayable
+   */
   const claimPayout = async (marketId: bigint) => {
     try {
       return await writeContractAsync({
