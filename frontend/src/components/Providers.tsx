@@ -21,12 +21,10 @@ export const botChainMainnet = defineChain({
 export const wagmiConfig = createConfig({
   chains: [botChainMainnet],
   transports: {
-    // Fallback cycles through RPCs automatically if one rate-limits
-    [botChainMainnet.id]: fallback([
-      http('https://rpc.botchain.ai'),
-      http('https://rpc-1.botchain.ai'),
-      http('https://rpc2.botchain.ai'),
-    ], { rank: false }),
+    [botChainMainnet.id]: http('https://rpc.botchain.ai', {
+      retryCount: 5,
+      retryDelay: 2000,
+    }),
   },
 });
 
