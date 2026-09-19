@@ -10,8 +10,17 @@ import { useBotremMarkets } from '../hooks/useBotremMarkets';
 
 export const TradingDashboard = () => {
   const { address, isConnected } = useAccount();
-  const { connect } = useConnect();
+  const { connect, isPending: isWalletPending } = useConnect();
   const [cadence, setCadence] = useState<60 | 300>(300);
+  const [isConnecting, setIsConnecting] = React.useState(false);
+
+  const handleConnect = async () => {
+    if (isConnecting || isWalletPending) return;
+    setIsConnecting(true);
+    try { await connect({ connector: injected() }); } 
+    catch (e) { console.warn('Connect error:', e); }
+    finally { setIsConnecting(false); }
+  };
   
   // Use our new native hooks for BOT Chain
   const { markets, positions } = useBotremMarkets();
@@ -22,8 +31,12 @@ export const TradingDashboard = () => {
       {/* Top Header / Account Info */}
       <div className="flex justify-end mb-4">
         {!isConnected ? (
-          <button onClick={() => connect({ connector: injected() })} className="rounded-full bg-[var(--accent-gold)] px-4 py-2 text-sm font-bold text-black">
-            Connect Wallet
+          <button 
+            onClick={handleConnect} 
+            disabled={isConnecting || isWalletPending}
+            className="rounded-full bg-[var(--accent-gold)] px-4 py-2 text-sm font-bold text-black disabled:opacity-60"
+          >
+            {isConnecting || isWalletPending ? 'Connecting...' : 'Connect Wallet'}
           </button>
         ) : (
           <div className="rounded-full border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.03)] px-4 py-2 text-sm text-[var(--text-secondary)]">

@@ -61,7 +61,7 @@ export const TradePanel = ({
       const confirmed: TradeExecutionRecord = {
         ...base,
         txHash: txHash,
-        explorerUrl: `https://scan.bohr.life/tx/${txHash}`,
+        explorerUrl: `https://scan.botchain.ai/tx/${txHash}`,
         status: 'confirmed',
       };
       onTradeSubmitted?.(confirmed);
