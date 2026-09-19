@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutGrid, Radar, Wallet } from 'lucide-react';
@@ -40,6 +41,19 @@ export function AppShell({
   const pathname = usePathname();
   const { address, isConnected } = useAccount();
   const { connect, isPending } = useConnect();
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const handleConnect = async () => {
+    if (isConnecting || isPending) return;
+    setIsConnecting(true);
+    try {
+      await connect({ connector: injected() });
+    } catch (e) {
+      console.warn('Wallet connect error:', e);
+    } finally {
+      setIsConnecting(false);
+    }
+  };
   
   const { data: balanceData } = useBalance({
     address,
@@ -90,11 +104,11 @@ export function AppShell({
               )}
               {!isConnected ? (
                 <button
-                  onClick={() => connect({ connector: injected() })}
-                  disabled={isPending}
+                  onClick={handleConnect}
+                  disabled={isPending || isConnecting}
                   className="cta-press mt-5 rounded-full bg-[linear-gradient(135deg,var(--accent-gold),#d97706)] px-4 py-2 text-sm text-[#140c00] disabled:opacity-60"
                 >
-                  {isPending ? 'Connecting...' : 'Connect Wallet'}
+                  {isPending || isConnecting ? 'Connecting...' : 'Connect Wallet'}
                 </button>
               ) : null}
             </Panel>
