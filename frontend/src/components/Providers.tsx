@@ -20,6 +20,7 @@ export const botChainMainnet = defineChain({
 
 export const wagmiConfig = createConfig({
   chains: [botChainMainnet],
+  pollingInterval: 15_000, // 15s — reduce background eth_getBlockByNumber spam
   transports: {
     [botChainMainnet.id]: http('https://rpc.botchain.ai', {
       retryCount: 5,

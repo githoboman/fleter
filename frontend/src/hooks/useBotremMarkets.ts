@@ -26,7 +26,7 @@ export function useBotremMarkets() {
     address: BOTREM_MAINNET_ADDRESSES.PredictionMarketV2,
     abi: PredictionMarketV2ABI as any,
     functionName: 'nextMarketId',
-    query: { refetchInterval: 5000 },
+    query: { refetchInterval: 30_000 },
   });
 
   // Calculate the range of markets to fetch (last 10)
@@ -42,7 +42,7 @@ export function useBotremMarkets() {
       functionName: 'getMarket',
       args: [id],
     })),
-    query: { refetchInterval: 5000 },
+    query: { refetchInterval: 30_000 },
   });
 
   const markets = marketsData
@@ -66,7 +66,7 @@ export function useBotremMarkets() {
       args: [id, address || '0x0000000000000000000000000000000000000000'],
     })),
     query: {
-      refetchInterval: 5000,
+      refetchInterval: 30_000,
       enabled: !!address && marketIds.length > 0,
     }
   });
