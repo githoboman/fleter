@@ -298,7 +298,7 @@ export const PriceChart: React.FC<PriceChartProps> = ({
 
     const loadHistory = async () => {
       try {
-        const res = await fetch(`https://api.binance.us/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=${HISTORY_MINUTES}`);
+        const res = await fetch(`https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&interval=1m&limit=${HISTORY_MINUTES}`);
         const data = await res.json();
         const candles = data.map((d: any) => [d[0], parseFloat(d[1]), parseFloat(d[2]), parseFloat(d[3]), parseFloat(d[4])]);
         if (!active || !candles.length) return;
@@ -322,7 +322,7 @@ export const PriceChart: React.FC<PriceChartProps> = ({
 
     let ws: WebSocket | null = null;
     const connectWS = () => {
-      ws = new WebSocket('wss://stream.binance.us:9443/ws/btcusdt@kline_1m');
+      ws = new WebSocket('wss://fstream.binance.com/ws/btcusdt@kline_1m');
       ws.onmessage = (event) => {
         if (!active) return;
         try {
