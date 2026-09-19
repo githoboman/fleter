@@ -1,5 +1,5 @@
 import { useReadContract, useReadContracts, useAccount } from 'wagmi';
-import { BOTREM_TESTNET_ADDRESSES, PredictionMarketV2ABI } from '../lib/botrem/contracts';
+import { BOTREM_MAINNET_ADDRESSES, PredictionMarketV2ABI } from '../lib/botrem/contracts';
 
 export type Direction = 0 | 1; // 0: UP, 1: DOWN
 export type MarketState = 0 | 1 | 2; // 0: OPEN, 1: LOCKED, 2: SETTLED
@@ -23,7 +23,7 @@ export function useBotremMarkets() {
 
   // Fetch the latest market ID
   const { data: nextMarketId } = useReadContract({
-    address: BOTREM_TESTNET_ADDRESSES.PredictionMarketV2,
+    address: BOTREM_MAINNET_ADDRESSES.PredictionMarketV2,
     abi: PredictionMarketV2ABI as any,
     functionName: 'nextMarketId',
     query: { refetchInterval: 5000 },
@@ -37,7 +37,7 @@ export function useBotremMarkets() {
   // Fetch the markets using Multicall
   const { data: marketsData, isLoading } = useReadContracts({
     contracts: marketIds.map(id => ({
-      address: BOTREM_TESTNET_ADDRESSES.PredictionMarketV2,
+      address: BOTREM_MAINNET_ADDRESSES.PredictionMarketV2,
       abi: PredictionMarketV2ABI as any,
       functionName: 'getMarket',
       args: [id],
@@ -60,7 +60,7 @@ export function useBotremMarkets() {
   // Fetch user positions for these markets
   const { data: positionsData } = useReadContracts({
     contracts: marketIds.map(id => ({
-      address: BOTREM_TESTNET_ADDRESSES.PredictionMarketV2,
+      address: BOTREM_MAINNET_ADDRESSES.PredictionMarketV2,
       abi: PredictionMarketV2ABI as any,
       functionName: 'getStakeRecord',
       args: [id, address || '0x0000000000000000000000000000000000000000'],

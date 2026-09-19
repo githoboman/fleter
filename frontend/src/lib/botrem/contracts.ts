@@ -1,13 +1,13 @@
 import PredictionMarketV2ABI from './PredictionMarketV2.abi.json';
 import LiquidityVaultV2ABI from './LiquidityVaultV2.abi.json';
 
-export const BOTREM_TESTNET_ADDRESSES = {
-  BitdrumPriceAdapter: '0xA21706591876338155BC49E72902F0c8A1d3Ce74',
-  LiquidityVaultV2: '0x0468bBF96D4CAF5f62360b92357753344c83724b',
-  TreasuryV2: '0x2fFfBC6FE555da5d83FF31be54425FE05Bb085a4',
-  LeaderboardRegistry: '0xa5f71Bf0227b97ffd23E7B85813dc412AAc29B50',
-  PredictionMarketV2: '0x5360001E9249c0F4AD7F9E1C86b54C3c33d89348',
-  SettlementEngineV2: '0xC9D070fBBa7c067ED93616Ea006f1aFCa074a397',
+export const BOTREM_MAINNET_ADDRESSES = {
+  BitdrumPriceAdapter: '0x833E8336d77F7Da45c155e6df4E5c72391073E6c',
+  LiquidityVaultV2: '0x042D0fb514f9753980055B34f210e7b19CB5AAF8',
+  TreasuryV2: '0x0aeeC511e30c7271ded720f17206c85F2F9EeFe7',
+  LeaderboardRegistry: '0x90C70e356540C8b53Bb5cd0BA35B8f2779c9a10c',
+  PredictionMarketV2: '0x86f62D80fbdD194fAb3ABFC86C676cF5C4411A9D',
+  SettlementEngineV2: '0x17841E7c35FC5e2117f0a3344A3326B31e51dAfE',
 } as const;
 
 export { PredictionMarketV2ABI, LiquidityVaultV2ABI };

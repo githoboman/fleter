@@ -1,5 +1,5 @@
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import { BOTREM_TESTNET_ADDRESSES, PredictionMarketV2ABI } from '../lib/botrem/contracts';
+import { BOTREM_MAINNET_ADDRESSES, PredictionMarketV2ABI } from '../lib/botrem/contracts';
 import { parseUnits } from 'viem';
 
 export function useBotremTrade() {
@@ -13,7 +13,7 @@ export function useBotremTrade() {
     try {
       const stakeAmount = parseUnits(amountInBOT, 18); // STT has 18 decimals
       return await writeContractAsync({
-        address: BOTREM_TESTNET_ADDRESSES.PredictionMarketV2 as `0x${string}`,
+        address: BOTREM_MAINNET_ADDRESSES.PredictionMarketV2 as `0x${string}`,
         abi: PredictionMarketV2ABI as any,
         functionName: 'openMarket',
         args: [direction, stakeAmount, BigInt(durationSeconds)],
@@ -28,7 +28,7 @@ export function useBotremTrade() {
     try {
       const stakeAmount = parseUnits(amountInBOT, 18);
       return await writeContractAsync({
-        address: BOTREM_TESTNET_ADDRESSES.PredictionMarketV2 as `0x${string}`,
+        address: BOTREM_MAINNET_ADDRESSES.PredictionMarketV2 as `0x${string}`,
         abi: PredictionMarketV2ABI as any,
         functionName: 'joinMarket',
         args: [marketId, stakeAmount],
@@ -42,7 +42,7 @@ export function useBotremTrade() {
   const claimPayout = async (marketId: bigint) => {
     try {
       return await writeContractAsync({
-        address: BOTREM_TESTNET_ADDRESSES.PredictionMarketV2 as `0x${string}`,
+        address: BOTREM_MAINNET_ADDRESSES.PredictionMarketV2 as `0x${string}`,
         abi: PredictionMarketV2ABI as any,
         functionName: 'claimPayout',
         args: [marketId],

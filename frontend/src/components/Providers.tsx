@@ -5,23 +5,23 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider, createConfig, http } from 'wagmi';
 import { defineChain } from 'viem';
 
-// Define Bot Chain Testnet
-export const botChainTestnet = defineChain({
-  id: 968,
-  name: 'Bot Chain Testnet',
+// Define Bot Chain Mainnet
+export const botChainMainnet = defineChain({
+  id: 677,
+  name: 'BOT Chain',
   nativeCurrency: { name: 'BOT', symbol: 'BOT', decimals: 18 },
   rpcUrls: {
-    default: { http: ['https://rpc.bohr.life'] },
+    default: { http: ['https://rpc.botchain.ai'] },
   },
   blockExplorers: {
-    default: { name: 'BotScan', url: 'https://scan.bohr.life' },
+    default: { name: 'BotScan', url: 'https://scan.botchain.ai' },
   },
 });
 
 export const wagmiConfig = createConfig({
-  chains: [botChainTestnet],
+  chains: [botChainMainnet],
   transports: {
-    [botChainTestnet.id]: http(),
+    [botChainMainnet.id]: http(),
   },
 });
 
