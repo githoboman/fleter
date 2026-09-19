@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider, createConfig, http } from 'wagmi';
+import { WagmiProvider, createConfig, http, fallback } from 'wagmi';
 import { defineChain } from 'viem';
 
 // Define Bot Chain Mainnet
@@ -21,9 +21,15 @@ export const botChainMainnet = defineChain({
 export const wagmiConfig = createConfig({
   chains: [botChainMainnet],
   transports: {
-    [botChainMainnet.id]: http(),
+    // Fallback cycles through RPCs automatically if one rate-limits
+    [botChainMainnet.id]: fallback([
+      http('https://rpc.botchain.ai'),
+      http('https://rpc-1.botchain.ai'),
+      http('https://rpc2.botchain.ai'),
+    ], { rank: false }),
   },
 });
+
 
 const queryClient = new QueryClient();
 
