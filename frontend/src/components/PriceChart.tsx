@@ -321,8 +321,51 @@ export const PriceChart: React.FC<PriceChartProps> = ({
     void loadHistory();
 
     let ws: WebSocket | null = null;
+    let pollInterval: NodeJS.Timeout | null = null;
+    let usePolling = false;
+
+    const fetchLatestCandle = async () => {
+      if (!active) return;
+      try {
+        const res = await fetch('https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&interval=1m&limit=1');
+        const data = await res.json();
+        if (data && data.length > 0) {
+          const d = data[0];
+          const nextTime = Math.floor(d[0] / 1000) as any;
+          const nextPrice = parseFloat(d[4]);
+          
+          if (currentMode === 'basic') {
+            (series as ISeriesApi<'Area'>).update({ time: nextTime, value: nextPrice });
+          } else {
+            (series as unknown as ISeriesApi<'Candlestick'>).update({
+              time: nextTime,
+              open: parseFloat(d[1]),
+              high: parseFloat(d[2]),
+              low: parseFloat(d[3]),
+              close: nextPrice,
+            });
+          }
+
+          setCurrentPrice((previous) => {
+            if (previous) setPriceChange(((nextPrice - previous) / previous) * 100);
+            return nextPrice;
+          });
+          onPriceUpdateRef.current?.(nextPrice);
+          setIsLive(true);
+        }
+      } catch (err) {
+        console.error('HTTP fallback polling error:', err);
+      }
+    };
+
     const connectWS = () => {
+      if (usePolling) {
+        pollInterval = setInterval(fetchLatestCandle, 2000);
+        return;
+      }
+
       ws = new WebSocket('wss://fstream.binance.com/ws/btcusdt@kline_1m');
+      
       ws.onmessage = (event) => {
         if (!active) return;
         try {
@@ -354,11 +397,18 @@ export const PriceChart: React.FC<PriceChartProps> = ({
           console.error('WebSocket feed error:', error);
         }
       };
+      
+      ws.onerror = () => {
+        console.warn('WebSocket failed, falling back to HTTP polling.');
+        usePolling = true; // Switch to HTTP polling permanently for this session
+      };
+
       ws.onclose = () => {
         setIsLive(false);
-        if (active) setTimeout(connectWS, 3000);
+        if (active) setTimeout(connectWS, 2000);
       };
     };
+    
     connectWS();
 
     const resizeObserver = new ResizeObserver(() => {
@@ -373,6 +423,7 @@ export const PriceChart: React.FC<PriceChartProps> = ({
       active = false;
       resizeObserver.disconnect();
       if (ws) ws.close();
+      if (pollInterval) clearInterval(pollInterval);
       chart.remove();
       seriesRef.current = null;
       chartRef.current = null;
