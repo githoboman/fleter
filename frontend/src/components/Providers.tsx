@@ -23,6 +23,7 @@ export const wagmiConfig = createConfig({
   pollingInterval: 15_000, // 15s — reduce background eth_getBlockByNumber spam
   transports: {
     [botChainMainnet.id]: http('https://rpc.botchain.ai', {
+      batch: true,
       retryCount: 5,
       retryDelay: 2000,
     }),
