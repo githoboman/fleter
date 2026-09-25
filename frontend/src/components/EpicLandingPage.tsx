@@ -166,7 +166,7 @@ export function EpicLandingPage() {
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 mb-8">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="text-[0.65rem] tracking-[0.3em] text-cyan-400 uppercase font-bold">Live on Bot Chain Testnet · Chain ID 968</span>
+                <span className="text-[0.65rem] tracking-[0.3em] text-cyan-400 uppercase font-bold">Officially launched on BOT Chain Mainnet · Chain ID 677</span>
               </div>
 
               <h1 className="font-black text-[clamp(4rem,9vw,9rem)] leading-[0.85] tracking-[-0.06em] mb-8">
@@ -277,7 +277,7 @@ export function EpicLandingPage() {
           >
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.07),transparent_60%)]" />
             <div className="relative">
-              <p className="text-[0.6rem] tracking-[0.35em] text-white/30 uppercase mb-6">Protocol Stats · Bot Chain Testnet</p>
+              <p className="text-[0.6rem] tracking-[0.35em] text-white/30 uppercase mb-6">Protocol Stats · BOT Chain Mainnet</p>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-5">
                   <MarketStatBar label="Markets Opened" value={1247} max={2000} color="#3b82f6" />
@@ -519,21 +519,48 @@ export function EpicLandingPage() {
             transition={{ duration: 3, repeat: Infinity }}
           >
             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-white/40 text-xs tracking-widest uppercase">Bot Chain Testnet · Chain 968 · <span className="text-emerald-400">Live</span></span>
+            <span className="text-white/40 text-xs tracking-widest uppercase">BOT Chain Mainnet · Chain 677 · <span className="text-emerald-400">Live</span></span>
           </motion.div>
         </motion.div>
       </section>
 
       {/* Footer */}
       <footer className="border-t border-white/5 py-10 px-6 lg:px-14">
-        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
-              <span className="text-black font-black text-xs">B</span>
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
+                <span className="text-black font-black text-xs">B</span>
+              </div>
+              <span className="text-white/30 text-sm">Botrem · BOT Chain Prediction Protocol</span>
             </div>
-            <span className="text-white/30 text-sm">Botrem · Bot Chain Prediction Protocol</span>
+            <p className="text-white/20 text-xs">Trading involves risk. Always do your own research.</p>
           </div>
-          <p className="text-white/20 text-xs">Trading involves risk. This is a testnet. Funds have no real value.</p>
+          
+          <div className="flex flex-col md:items-end gap-3">
+            <span className="text-white/40 text-xs tracking-widest uppercase mb-1">Ecosystem Partner</span>
+            <div className="flex items-center gap-4">
+              <a 
+                href="https://botchain.ai" 
+                target="_blank" 
+                rel="noreferrer"
+                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+              >
+                <div className="w-6 h-6 rounded bg-[#0A0A0A] border border-white/10 flex items-center justify-center">
+                  <span className="text-white font-bold text-[10px]">BOT</span>
+                </div>
+                <span className="text-white/60 text-sm font-medium">BOT Chain</span>
+              </a>
+              <a 
+                href="https://scan.botchain.ai" 
+                target="_blank" 
+                rel="noreferrer"
+                className="text-white/40 hover:text-white/80 transition-colors text-xs"
+              >
+                Block Explorer
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

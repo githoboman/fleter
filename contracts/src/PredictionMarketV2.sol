@@ -46,8 +46,8 @@ contract PredictionMarketV2 is Owned {
     uint256 public constant VAULT_HIGH_WATER  = 100 ether; // 100 STT
 
     // Maximum allowed age of the price adapter's latest round when opening a market.
-    // Keeper posts every ~15-30s so 60s allows for one missed post.
-    uint256 public constant ADAPTER_MAX_AGE   = 60;
+    // Keeper posts every ~15-30s    // How old a price round can be before it's considered stale
+    uint256 public constant ADAPTER_MAX_AGE   = 300;
 
     // Supported durations (seconds).
     uint256 public constant DURATION_1M  = 60;
